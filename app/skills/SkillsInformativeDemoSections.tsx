@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { INFORMATIVE_NAV_ITEMS, getInformativeNavLabel } from "./informative-nav-items";
 import { getInformativeSectionId } from "./informative-section-ids";
+import { SkillsInformativeInteractiveMapSection } from "./SkillsInformativeInteractiveMapSection";
 import { SkillsInformativeReportsSection } from "./SkillsInformativeReportsSection";
 
 type SkillsInformativeDemoSectionsProps = {
@@ -31,7 +32,9 @@ export function SkillsInformativeDemoSections({ side }: SkillsInformativeDemoSec
               )}
               {isReports ? (
                 <SkillsInformativeReportsSection side={side} />
-              ) : isInteractiveMap ? null : (
+              ) : isInteractiveMap ? (
+                <SkillsInformativeInteractiveMapSection side={side} />
+              ) : (
                 <p className="skills-informative-section-placeholder">Demo content — UI coming soon.</p>
               )}
             </section>

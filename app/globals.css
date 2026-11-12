@@ -260,13 +260,6 @@ body {
   line-height: 1.4;
 }
 
-.cv-skills-explore-soon {
-  color: #94a3b8;
-  font-weight: 600;
-  cursor: default;
-  user-select: none;
-}
-
 /* /skills — full-viewport outer paper + twin panes / flip deck */
 .skills-page-shell {
   min-height: 100dvh;

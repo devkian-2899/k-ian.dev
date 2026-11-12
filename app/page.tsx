@@ -34,6 +34,7 @@ const CV_LINKEDIN = {
 */
 
 const CV_EDUCATION: { degree: string; school: string }[] = [
+  { degree: "Master of Science (Computer Systems)", school: "ABAC, TH." },
   { degree: "Bachelor of Science (Computing)", school: "Gloucestershire, UK." },
   { degree: "Higher National Diploma in IT", school: "Edexcel, UK." },
   { degree: "Bachelor of Art (English)", school: "University of East Yangon, MM." },
@@ -425,7 +426,9 @@ export default function Home() {
         </section>
 
         <p className="cv-skills-explore mt-3">
-          <span className="cv-skills-explore-soon">Explore my skills here! (Coming Soon...)</span>
+          <a className="cv-link" href="/skills">
+            Explore my skills here!
+          </a>
         </p>
 
         {/* Each job: role + date row, employer italic, description paragraph */}
@@ -460,7 +463,7 @@ export default function Home() {
                 the paper-based system to convert the digital system. Stand out development is auto
                 generated student and instructor ID and uniform QR code to view the info of each
                 member. An auto-generated timetable for each new class. I worked as a full-stack web
-                developer for four and a half months.
+                developer for 4 and half months during the first semester of my Master&rsquo;s Degree.
               </p>
             </li>
             <li className="cv-entry">
