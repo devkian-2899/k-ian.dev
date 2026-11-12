@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 const INFORMATIVE_MENU_ITEMS = [
   "Font & Color",
@@ -10,21 +10,22 @@ const INFORMATIVE_MENU_ITEMS = [
   "Reports & Downloads",
 ] as const;
 
-type SkillsInformativeMobileMenuProps = {
+type SkillsInformativeMobileNavProps = {
+  logo: ReactNode;
   side: "ian" | "other";
 };
 
-/** Informative mobile nav — hamburger + dropdown (not shown on desktop). */
-export function SkillsInformativeMobileMenu({ side }: SkillsInformativeMobileMenuProps) {
+/** Informative mobile: logo row + in-flow dropdown (avoids clip inside card). */
+export function SkillsInformativeMobileNav({ side, logo }: SkillsInformativeMobileNavProps) {
   const [open, setOpen] = useState(false);
   const menuId = useId();
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
 
     const onPointerDown = (event: MouseEvent) => {
-      if (wrapRef.current?.contains(event.target as Node)) return;
+      if (rootRef.current?.contains(event.target as Node)) return;
       setOpen(false);
     };
 
@@ -42,27 +43,36 @@ export function SkillsInformativeMobileMenu({ side }: SkillsInformativeMobileMen
 
   return (
     <div
-      ref={wrapRef}
-      className={`skills-wco-mobile-menu-wrap skills-wco-mobile-menu-wrap--${side}`}
+      ref={rootRef}
+      className={`skills-wco-mobile-shell skills-wco-mobile-shell--${side}${
+        open ? " skills-wco-mobile-shell--open" : ""
+      }`}
     >
-      <button
-        type="button"
-        aria-controls={menuId}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        aria-label={open ? "Close menu" : "Open menu"}
-        className={`skills-wco-hamburger skills-wco-hamburger--${side}${
-          open ? " skills-wco-hamburger--open" : ""
-        }`}
-        onClick={() => setOpen((value) => !value)}
-      >
-        <span className="skills-wco-hamburger-bar" />
-        <span className="skills-wco-hamburger-bar" />
-        <span className="skills-wco-hamburger-bar" />
-      </button>
+      <div className="skills-wco-mobile-top-row">
+        <div className="skills-wco-mobile-logo-slot">{logo}</div>
+        <button
+          type="button"
+          aria-controls={menuId}
+          aria-expanded={open}
+          aria-haspopup="menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          className={`skills-wco-hamburger skills-wco-hamburger--${side}${
+            open ? " skills-wco-hamburger--open" : ""
+          }`}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="skills-wco-hamburger-bar" />
+          <span className="skills-wco-hamburger-bar" />
+          <span className="skills-wco-hamburger-bar" />
+        </button>
+      </div>
 
       {open ? (
-        <ul className="skills-wco-mobile-dropdown" id={menuId} role="menu">
+        <ul
+          className={`skills-wco-mobile-dropdown skills-wco-mobile-dropdown--flow skills-wco-mobile-dropdown--${side}`}
+          id={menuId}
+          role="menu"
+        >
           {INFORMATIVE_MENU_ITEMS.map((label) => (
             <li key={label} role="none">
               <button

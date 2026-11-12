@@ -1,6 +1,16 @@
 import Image from "next/image";
-import { SkillsInformativeMobileMenu } from "./SkillsInformativeMobileMenu";
+import { SkillsInformativeMobileNav } from "./SkillsInformativeMobileMenu";
 import { WCO_ICON_SRC, WCO_LOGO_SRC, WCO_TEXT_SRC } from "./skills-wco-assets";
+
+const mobileLogo = (
+  <Image
+    alt="World Customs Organization"
+    className="skills-wco-ian-original skills-wco-mobile-logo"
+    height={80}
+    src={WCO_LOGO_SRC}
+    width={200}
+  />
+);
 
 /** Informative — Devkian: split icon + text (wide); logo + menu (narrow). */
 export function SkillsInformativeIanWcoStrip() {
@@ -25,16 +35,7 @@ export function SkillsInformativeIanWcoStrip() {
       </div>
 
       <div className="skills-wco-ian-compact">
-        <div className="skills-wco-mobile-brand">
-          <Image
-            alt="World Customs Organization"
-            className="skills-wco-ian-original skills-wco-mobile-logo"
-            height={80}
-            src={WCO_LOGO_SRC}
-            width={200}
-          />
-          <SkillsInformativeMobileMenu side="ian" />
-        </div>
+        <SkillsInformativeMobileNav side="ian" logo={mobileLogo} />
       </div>
     </div>
   );
@@ -42,17 +43,21 @@ export function SkillsInformativeIanWcoStrip() {
 
 /** Informative — Other's Development: logo; mobile adds same-size logo + menu. */
 export function SkillsInformativeOtherWcoLogo() {
+  const logo = (
+    <Image
+      alt="World Customs Organization"
+      className="skills-wco-logo skills-wco-logo--other skills-wco-mobile-logo"
+      height={80}
+      src={WCO_LOGO_SRC}
+      width={200}
+    />
+  );
+
   return (
     <div className="skills-wco-zone skills-wco-zone--other">
-      <div className="skills-wco-other-brand">
-        <Image
-          alt="World Customs Organization"
-          className="skills-wco-logo skills-wco-logo--other skills-wco-mobile-logo"
-          height={80}
-          src={WCO_LOGO_SRC}
-          width={200}
-        />
-        <SkillsInformativeMobileMenu side="other" />
+      <div className="skills-wco-other-brand skills-wco-other-brand--desktop">{logo}</div>
+      <div className="skills-wco-other-brand skills-wco-other-brand--mobile">
+        <SkillsInformativeMobileNav side="other" logo={logo} />
       </div>
     </div>
   );
