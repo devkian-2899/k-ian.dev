@@ -25,8 +25,8 @@ const FLIP_MS = 380;
 const FADE_MS = 260;
 const DOUBLE_TAP_MS = 320;
 const TAP_MOVE_TOLERANCE_PX = 12;
-const HINT_HOLD_MS = 2000;
-const HINT_POP_OUT_MS = 280;
+const HINT_HOLD_MS = 850;
+const HINT_POP_OUT_MS = 220;
 
 function SkillsToggleCodeIcon() {
   return (
@@ -70,7 +70,7 @@ function SkillsToggleStack({ mode }: { mode: "code" | "ui" }) {
   );
 }
 
-/** Mobile center overlay after flip — reflects current face (UI vs Code). */
+/** Mobile center overlay after flip — icon only for current face. */
 function SkillsMobileFlipHint({
   side,
   view,
@@ -80,33 +80,30 @@ function SkillsMobileFlipHint({
 }) {
   if (view === "ui") {
     return (
-      <span className="skills-inner-toggle-stack">
+      <span className="skills-inner-center-hint-icon-only">
         <SkillsToggleUiIcon />
-        <span className="skills-inner-toggle-label">UI</span>
       </span>
     );
   }
 
   if (side === "ian") {
     return (
-      <span className="skills-inner-toggle-stack">
+      <span className="skills-inner-center-hint-icon-only">
         <Image
           alt=""
           aria-hidden
           className="skills-inner-center-main-icon"
-          height={20}
+          height={24}
           src={DEVKIAN_MAIN_ICON}
-          width={20}
+          width={24}
         />
-        <span className="skills-inner-toggle-label">Code</span>
       </span>
     );
   }
 
   return (
-    <span className="skills-inner-toggle-stack">
+    <span className="skills-inner-center-hint-icon-only">
       <SkillsToggleCodeIcon />
-      <span className="skills-inner-toggle-label">Code</span>
     </span>
   );
 }
@@ -302,7 +299,7 @@ export function SkillsInnerFlipCard({
           }`}
           aria-hidden="true"
         >
-          <span className="skills-inner-center-hint-pill">
+          <span className="skills-inner-center-hint-pill skills-inner-center-hint-pill--icon-only">
             <SkillsMobileFlipHint side={side} view={mobileHintView} />
           </span>
         </div>
