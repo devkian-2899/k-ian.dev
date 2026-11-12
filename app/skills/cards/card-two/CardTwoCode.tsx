@@ -1,10 +1,15 @@
 import { SkillsVscodeSnippet } from "../../SkillsVscodeSnippet";
+import type { SkillsCodeFaceData } from "../../skills-business-types";
 
-/** Code face — card two (others). */
-export function CardTwoCode() {
+type CardTwoCodeProps = {
+  data: SkillsCodeFaceData;
+};
+
+/** Code face — other card. */
+export function CardTwoCode({ data }: CardTwoCodeProps) {
   return (
     <div className="skills-inner-panel skills-inner-panel--code">
-      <SkillsVscodeSnippet />
+      <SkillsVscodeSnippet lines={data.lines} />
     </div>
   );
 }

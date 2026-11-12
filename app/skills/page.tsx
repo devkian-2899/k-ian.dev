@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { SkillsCardOne } from "./cards/card-one/CardOne";
-import { SkillsCardTwo } from "./cards/card-two/CardTwo";
-import { SkillsCardsDeck } from "./SkillsCardsDeck";
+import { SkillsPageContent } from "./SkillsPageContent";
 
 export const metadata: Metadata = {
   title: "Skills — Kaung Khant",
@@ -21,8 +19,9 @@ export default function SkillsPage() {
         <h1 className="skills-page-title shrink-0">
           Beyond the Résumé : Explore My Value
         </h1>
+        <hr aria-hidden="true" className="skills-page-title-rule" />
 
-        <SkillsCardsDeck cardOne={<SkillsCardOne />} cardTwo={<SkillsCardTwo />} />
+        <SkillsPageContent />
       </article>
     </div>
   );
