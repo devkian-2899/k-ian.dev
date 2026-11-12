@@ -900,7 +900,28 @@ body {
   list-style: none;
 }
 
-.skills-wco-desktop-nav-link {
+.skills-wco-nav-surface--ian {
+  --skills-nav-color: #29405c;
+  --skills-nav-hover-bg: rgba(41, 64, 92, 0.14);
+  --skills-nav-active-bg: rgba(41, 64, 92, 0.22);
+  --skills-nav-hover-color: #29405c;
+  --skills-nav-active-color: #29405c;
+  --skills-nav-font: "IBM Plex Sans", sans-serif;
+  --skills-nav-size: clamp(0.68rem, 3.5cqw, 0.92rem);
+}
+
+.skills-wco-nav-surface--other {
+  --skills-nav-color: #c92d45;
+  --skills-nav-hover-bg: #f27474;
+  --skills-nav-active-bg: #e85f5f;
+  --skills-nav-hover-color: #fff;
+  --skills-nav-active-color: #fff;
+  --skills-nav-font: "Times New Roman", Times, serif;
+  --skills-nav-size: clamp(0.68rem, 3.5cqw, 0.92rem);
+}
+
+.skills-wco-desktop-nav-link,
+.skills-wco-mobile-dropdown-item {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -908,13 +929,63 @@ body {
   margin: 0;
   border: none;
   background: transparent;
+  font-family: var(--skills-nav-font, inherit);
+  font-size: var(--skills-nav-size, 0.72rem);
+  font-weight: 600;
   line-height: 1.25;
   text-align: center;
   text-wrap: balance;
+  color: var(--skills-nav-color, #0f172a);
   cursor: pointer;
   transition:
     background-color 0.16s ease,
     color 0.16s ease;
+}
+
+.skills-wco-mobile-shell--ian,
+.skills-wco-desktop-nav--ian {
+  --skills-nav-color: #29405c;
+  --skills-nav-hover-bg: rgba(41, 64, 92, 0.14);
+  --skills-nav-active-bg: rgba(41, 64, 92, 0.22);
+  --skills-nav-hover-color: #29405c;
+  --skills-nav-active-color: #29405c;
+  --skills-nav-font: "IBM Plex Sans", sans-serif;
+  --skills-nav-size: clamp(0.68rem, 3.5cqw, 0.92rem);
+}
+
+.skills-wco-mobile-shell--other,
+.skills-wco-desktop-nav--other {
+  --skills-nav-color: #c92d45;
+  --skills-nav-hover-bg: #f27474;
+  --skills-nav-active-bg: #e85f5f;
+  --skills-nav-hover-color: #fff;
+  --skills-nav-active-color: #fff;
+  --skills-nav-font: "Times New Roman", Times, serif;
+  --skills-nav-size: clamp(0.68rem, 3.5cqw, 0.92rem);
+}
+
+.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-link:hover,
+.skills-wco-mobile-dropdown--ian .skills-wco-mobile-dropdown-item:hover {
+  background: var(--skills-nav-hover-bg);
+  color: var(--skills-nav-hover-color);
+}
+
+.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-link:active,
+.skills-wco-mobile-dropdown--ian .skills-wco-mobile-dropdown-item:active {
+  background: var(--skills-nav-active-bg);
+  color: var(--skills-nav-active-color);
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link:hover,
+.skills-wco-mobile-dropdown--other .skills-wco-mobile-dropdown-item:hover {
+  background: var(--skills-nav-hover-bg);
+  color: var(--skills-nav-hover-color);
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link:active,
+.skills-wco-mobile-dropdown--other .skills-wco-mobile-dropdown-item:active {
+  background: var(--skills-nav-active-bg);
+  color: var(--skills-nav-active-color);
 }
 
 .skills-wco-desktop-nav--ian .skills-wco-desktop-nav-list {
@@ -932,20 +1003,7 @@ body {
   min-height: 2.45rem;
   padding: 0.5rem 0.35rem;
   border-radius: 0.32rem;
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: clamp(0.68rem, 3.5cqw, 0.92rem);
-  font-weight: 600;
   letter-spacing: 0.015em;
-  color: #29405c;
-}
-
-.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-link:hover {
-  background: rgba(41, 64, 92, 0.14);
-  color: #29405c;
-}
-
-.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-link:active {
-  background: rgba(41, 64, 92, 0.22);
 }
 
 .skills-wco-desktop-nav--other .skills-wco-desktop-nav-list {
@@ -968,20 +1026,6 @@ body {
 .skills-wco-desktop-nav--other .skills-wco-desktop-nav-link {
   min-height: 2.45rem;
   padding: 0.45rem 0.25rem;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: clamp(0.62rem, 3.2cqw, 0.82rem);
-  font-weight: 600;
-  color: #c92d45;
-}
-
-.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link:hover {
-  background: #f27474;
-  color: #fff;
-}
-
-.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link:active {
-  background: #e85f5f;
-  color: #fff;
 }
 
 .skills-wco-other-brand--desktop {
@@ -1114,54 +1158,17 @@ body {
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  max-height: min(36cqh, 10.5rem);
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  max-height: none;
+  overflow: visible;
 }
 
 .skills-wco-mobile-dropdown-item {
-  display: block;
-  width: 100%;
-  padding: 0.45rem 0.55rem;
-  border: none;
+  flex-shrink: 0;
+  min-height: 2.35rem;
+  padding: 0.5rem 0.55rem;
   border-radius: 0.35rem;
-  background: transparent;
-  font: inherit;
-  font-size: clamp(0.64rem, 3.2cqw, 0.72rem);
-  font-weight: 600;
+  justify-content: flex-start;
   line-height: 1.35;
-  text-align: left;
-  color: #0f172a;
-  cursor: pointer;
-}
-
-.skills-wco-mobile-dropdown--ian .skills-wco-mobile-dropdown-item {
-  font-family: "IBM Plex Sans", sans-serif;
-  color: #29405c;
-}
-
-.skills-wco-mobile-dropdown--ian .skills-wco-mobile-dropdown-item:hover {
-  background: rgba(41, 64, 92, 0.12);
-}
-
-.skills-wco-mobile-dropdown--ian .skills-wco-mobile-dropdown-item:active {
-  background: rgba(41, 64, 92, 0.2);
-}
-
-.skills-wco-mobile-dropdown--other .skills-wco-mobile-dropdown-item {
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  color: #c92d45;
-}
-
-.skills-wco-mobile-dropdown--other .skills-wco-mobile-dropdown-item:hover {
-  background: #f27474;
-  color: #fff;
-}
-
-.skills-wco-mobile-dropdown--other .skills-wco-mobile-dropdown-item:active {
-  background: #e85f5f;
-  color: #fff;
 }
 
 .skills-inner-face:has(.skills-inner-panel--ui-stack) {
