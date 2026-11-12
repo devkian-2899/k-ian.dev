@@ -13,6 +13,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Kaung Khant — Curriculum Vitae",
   description: "Full-stack software developer — Bangkok, Thailand.",
+  icons: {
+    icon: "/images/Icon.png",
+    shortcut: "/images/Icon.png",
+    apple: "/images/Icon.png",
+  },
 };
 
 export const viewport: Viewport = {
