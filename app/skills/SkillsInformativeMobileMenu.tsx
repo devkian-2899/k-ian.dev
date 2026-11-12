@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { useInformativeDemoNav } from "./SkillsInformativeDemoContext";
-import { INFORMATIVE_NAV_ITEMS } from "./informative-nav-items";
+import { INFORMATIVE_NAV_ITEMS, getInformativeNavLabel } from "./informative-nav-items";
 import type { InformativeNavItem } from "./informative-nav-items";
 
 type SkillsInformativeMobileNavProps = {
@@ -82,7 +82,7 @@ export function SkillsInformativeMobileNav({ side, logo }: SkillsInformativeMobi
                 role="menuitem"
                 onClick={() => onNavClick(label)}
               >
-                {label}
+                {getInformativeNavLabel(side, label)}
               </button>
             </li>
           ))}

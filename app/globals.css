@@ -1243,9 +1243,14 @@ body {
   line-height: 1.4;
 }
 
+.skills-inner-panel--ui-stack > .skills-wco-zone--ian + .skills-informative-demo {
+  margin-top: clamp(0.65rem, 3.5cqh, 1.2rem);
+}
+
 .skills-informative-reports--ian .skills-informative-reports-line {
   justify-content: flex-end;
   text-align: right;
+  gap: 0.4rem clamp(0.85rem, 4cqw, 1.35rem);
 }
 
 .skills-informative-reports--ian .skills-informative-reports-prompt {
@@ -1369,6 +1374,19 @@ body {
   font-style: italic;
 }
 
+.skills-informative-map-status {
+  margin: 0;
+  padding: 0.65rem 0.35rem;
+  font-size: clamp(0.62rem, 3cqw, 0.75rem);
+  line-height: 1.35;
+  color: #64748b;
+  text-align: center;
+}
+
+.skills-informative-map-status--error {
+  color: #b91c1c;
+}
+
 .skills-informative-map-svg {
   display: block;
   width: 100%;
@@ -1386,12 +1404,16 @@ body {
   transition:
     fill 0.2s ease,
     stroke-width 0.15s ease,
-    filter 0.15s ease;
+    opacity 0.15s ease;
+}
+
+.skills-informative-map-region--muted {
+  opacity: 0.42;
 }
 
 .skills-informative-map-region--active,
 .skills-informative-map-region:focus-visible {
-  filter: brightness(1.05);
+  opacity: 1;
 }
 
 .skills-informative-map-region:focus-visible {
@@ -1399,35 +1421,35 @@ body {
   outline-offset: 1px;
 }
 
-.skills-informative-map-legend {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: 0.35rem;
-  font-size: clamp(0.52rem, 2.5cqw, 0.65rem);
+.skills-informative-map-region-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.2rem 0.45rem;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(0.52rem, 2.4cqw, 0.62rem);
   color: #64748b;
 }
 
-.skills-informative-map-legend-bar {
-  flex: 1 1 auto;
-  height: 0.35rem;
-  border-radius: 999px;
+.skills-informative-map-region-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 0;
 }
 
-.skills-informative-map-legend-bar--ian {
-  background: linear-gradient(
-    90deg,
-    rgba(41, 64, 92, 0.12) 0%,
-    rgba(41, 64, 92, 0.92) 100%
-  );
+.skills-informative-map-region-legend-swatch {
+  flex-shrink: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 0.12rem;
+  border: 1px solid rgba(15, 23, 42, 0.15);
 }
 
-.skills-informative-map-legend-bar--other {
-  background: linear-gradient(
-    90deg,
-    rgba(201, 45, 69, 0.12) 0%,
-    rgba(201, 45, 69, 0.92) 100%
-  );
+.skills-informative-map-region-legend-text code {
+  font-size: 0.92em;
+  color: #475569;
 }
 
 .skills-wco-zone--other {

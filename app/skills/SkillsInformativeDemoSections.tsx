@@ -1,7 +1,6 @@
 import { Fragment } from "react";
-import { INFORMATIVE_NAV_ITEMS } from "./informative-nav-items";
+import { INFORMATIVE_NAV_ITEMS, getInformativeNavLabel } from "./informative-nav-items";
 import { getInformativeSectionId } from "./informative-section-ids";
-import { SkillsInformativeInteractiveMapSection } from "./SkillsInformativeInteractiveMapSection";
 import { SkillsInformativeReportsSection } from "./SkillsInformativeReportsSection";
 
 type SkillsInformativeDemoSectionsProps = {
@@ -16,8 +15,6 @@ export function SkillsInformativeDemoSections({ side }: SkillsInformativeDemoSec
         const sectionId = getInformativeSectionId(label);
         const titleId = `${sectionId}-title`;
         const isReports = label === "Reports";
-        const isInteractiveMap = label === "Interactive Map";
-
         return (
           <Fragment key={label}>
             <section
@@ -28,13 +25,11 @@ export function SkillsInformativeDemoSections({ side }: SkillsInformativeDemoSec
             >
               {isReports ? null : (
                 <h2 className="skills-informative-section-title" id={titleId}>
-                  {label}
+                  {getInformativeNavLabel(side, label)}
                 </h2>
               )}
               {isReports ? (
                 <SkillsInformativeReportsSection side={side} />
-              ) : isInteractiveMap ? (
-                <SkillsInformativeInteractiveMapSection side={side} />
               ) : (
                 <p className="skills-informative-section-placeholder">Demo content — UI coming soon.</p>
               )}

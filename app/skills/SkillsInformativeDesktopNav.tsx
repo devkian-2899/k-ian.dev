@@ -1,7 +1,7 @@
 "use client";
 
 import { useInformativeDemoNav } from "./SkillsInformativeDemoContext";
-import { INFORMATIVE_NAV_ITEMS } from "./informative-nav-items";
+import { INFORMATIVE_NAV_ITEMS, getInformativeNavLabel } from "./informative-nav-items";
 import type { InformativeNavItem } from "./informative-nav-items";
 
 type SkillsInformativeDesktopNavProps = {
@@ -11,7 +11,6 @@ type SkillsInformativeDesktopNavProps = {
 /** Desktop horizontal nav — scrolls to in-card section. */
 export function SkillsInformativeDesktopNav({ side }: SkillsInformativeDesktopNavProps) {
   const { scrollToNavItem } = useInformativeDemoNav();
-
   const onNavClick = (label: InformativeNavItem) => {
     scrollToNavItem(label);
   };
@@ -29,7 +28,7 @@ export function SkillsInformativeDesktopNav({ side }: SkillsInformativeDesktopNa
               className="skills-wco-desktop-nav-link"
               onClick={() => onNavClick(label)}
             >
-              {label}
+              {getInformativeNavLabel(side, label)}
             </button>
           </li>
         ))}
