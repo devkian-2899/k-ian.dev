@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useInformativeDemoNav } from "./SkillsInformativeDemoContext";
 import { INFORMATIVE_NAV_ITEMS } from "./informative-nav-items";
+import type { InformativeNavItem } from "./informative-nav-items";
 
 type SkillsInformativeMobileNavProps = {
   logo: ReactNode;
@@ -10,6 +12,7 @@ type SkillsInformativeMobileNavProps = {
 
 /** Informative mobile: logo row + in-flow dropdown (avoids clip inside card). */
 export function SkillsInformativeMobileNav({ side, logo }: SkillsInformativeMobileNavProps) {
+  const { scrollToNavItem } = useInformativeDemoNav();
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -34,8 +37,8 @@ export function SkillsInformativeMobileNav({ side, logo }: SkillsInformativeMobi
     };
   }, [open]);
 
-  const onNavClick = (label: string) => {
-    void label;
+  const onNavClick = (label: InformativeNavItem) => {
+    scrollToNavItem(label);
     setOpen(false);
   };
 

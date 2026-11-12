@@ -1009,23 +1009,26 @@ body {
 .skills-wco-desktop-nav--other .skills-wco-desktop-nav-list {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  border: 1px solid #c92d45;
-  border-radius: 0.35rem;
-  overflow: hidden;
+  gap: 0.28rem;
+  width: 100%;
 }
 
 .skills-wco-desktop-nav--other .skills-wco-desktop-nav-item {
   min-width: 0;
-  border-left: 1px solid #c92d45;
-}
-
-.skills-wco-desktop-nav--other .skills-wco-desktop-nav-item:first-child {
-  border-left: none;
 }
 
 .skills-wco-desktop-nav--other .skills-wco-desktop-nav-link {
   min-height: 2.45rem;
-  padding: 0.45rem 0.25rem;
+  padding: 0.5rem 0.35rem;
+  border-radius: 0.32rem;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+  text-decoration-thickness: from-font;
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link:hover,
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link:active {
+  text-decoration: underline;
 }
 
 .skills-wco-other-brand--desktop {
@@ -1174,6 +1177,257 @@ body {
 .skills-inner-face:has(.skills-inner-panel--ui-stack) {
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.skills-informative-demo {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: clamp(0.5rem, 2cqh, 0.85rem);
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.skills-informative-section {
+  flex-shrink: 0;
+  scroll-margin-top: 0.35rem;
+  padding: clamp(0.35rem, 1.5cqh, 0.55rem) clamp(0.15rem, 1cqw, 0.35rem);
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.skills-informative-demo-divider {
+  flex-shrink: 0;
+  width: 100%;
+  height: 0;
+  margin: clamp(0.15rem, 1cqh, 0.35rem) 0;
+  border: 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.skills-informative-section-title {
+  margin: 0 0 0.45rem;
+  font-size: clamp(0.72rem, 3.6cqw, 0.92rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #0f172a;
+}
+
+.skills-informative-section--ian .skills-informative-section-title {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: #29405c;
+}
+
+.skills-informative-section--other .skills-informative-section-title {
+  font-family: "Times New Roman", Times, serif;
+  color: #c92d45;
+}
+
+.skills-informative-section-placeholder {
+  margin: 0;
+  font-size: clamp(0.64rem, 3.2cqw, 0.78rem);
+  line-height: 1.4;
+  color: #64748b;
+}
+
+.skills-informative-reports-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin: 0;
+  font-size: clamp(0.64rem, 3.2cqw, 0.78rem);
+  line-height: 1.4;
+}
+
+.skills-informative-reports--ian .skills-informative-reports-line {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.skills-informative-reports--ian .skills-informative-reports-prompt {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: #29405c;
+}
+
+.skills-informative-reports--other .skills-informative-reports-line {
+  justify-content: center;
+  text-align: center;
+}
+
+.skills-informative-reports--other .skills-informative-reports-prompt {
+  font-family: "Times New Roman", Times, serif;
+  color: #c92d45;
+}
+
+.skills-informative-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.35rem;
+  font-size: clamp(0.64rem, 3.2cqw, 0.78rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    color 0.16s ease,
+    border-color 0.16s ease;
+}
+
+.skills-informative-download--ian {
+  border: 1px solid #29405c;
+  background: #fff;
+  color: #29405c;
+  padding: 0.4rem;
+  min-width: 2.15rem;
+  min-height: 2.15rem;
+}
+
+.skills-informative-download-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.skills-informative-download--ian:hover {
+  background: rgba(41, 64, 92, 0.12);
+}
+
+.skills-informative-download--other {
+  border: 1px solid #9a2236;
+  border-top-color: #f5a0a8;
+  border-left-color: #f5a0a8;
+  background: linear-gradient(180deg, #f27474 0%, #c92d45 52%, #a82438 100%);
+  color: #fff;
+  box-shadow:
+    0 2px 0 #7a1a2a,
+    0 3px 5px rgba(15, 23, 42, 0.22);
+  text-shadow: 0 1px 0 rgba(74, 12, 22, 0.35);
+  transition:
+    background 0.14s ease,
+    box-shadow 0.14s ease,
+    transform 0.1s ease;
+}
+
+.skills-informative-download--other:hover {
+  background: linear-gradient(180deg, #f58e8e 0%, #d43850 52%, #b82a3f 100%);
+  color: #fff;
+}
+
+.skills-informative-download--other:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 0 #7a1a2a,
+    0 1px 3px rgba(15, 23, 42, 0.18);
+}
+
+.skills-informative-map {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 0.35rem;
+}
+
+.skills-informative-map--ian {
+  border: 1px solid rgba(41, 64, 92, 0.45);
+}
+
+.skills-informative-map--other {
+  border: 1px solid rgba(201, 45, 69, 0.55);
+}
+
+.skills-informative-map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 0.5rem;
+  margin-bottom: 0.35rem;
+  font-size: clamp(0.58rem, 2.8cqw, 0.72rem);
+  line-height: 1.3;
+}
+
+.skills-informative-map--ian .skills-informative-map-toolbar-label,
+.skills-informative-map--ian .skills-informative-map-toolbar-value {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: #29405c;
+}
+
+.skills-informative-map--other .skills-informative-map-toolbar-label,
+.skills-informative-map--other .skills-informative-map-toolbar-value {
+  font-family: "Times New Roman", Times, serif;
+  color: #c92d45;
+}
+
+.skills-informative-map-toolbar-hint {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.skills-informative-map-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 1;
+}
+
+.skills-informative-map-ocean {
+  fill: #f8fafc;
+}
+
+.skills-informative-map-region {
+  cursor: pointer;
+  outline: none;
+  transition:
+    fill 0.2s ease,
+    stroke-width 0.15s ease,
+    filter 0.15s ease;
+}
+
+.skills-informative-map-region--active,
+.skills-informative-map-region:focus-visible {
+  filter: brightness(1.05);
+}
+
+.skills-informative-map-region:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.skills-informative-map-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  font-size: clamp(0.52rem, 2.5cqw, 0.65rem);
+  color: #64748b;
+}
+
+.skills-informative-map-legend-bar {
+  flex: 1 1 auto;
+  height: 0.35rem;
+  border-radius: 999px;
+}
+
+.skills-informative-map-legend-bar--ian {
+  background: linear-gradient(
+    90deg,
+    rgba(41, 64, 92, 0.12) 0%,
+    rgba(41, 64, 92, 0.92) 100%
+  );
+}
+
+.skills-informative-map-legend-bar--other {
+  background: linear-gradient(
+    90deg,
+    rgba(201, 45, 69, 0.12) 0%,
+    rgba(201, 45, 69, 0.92) 100%
+  );
 }
 
 .skills-wco-zone--other {

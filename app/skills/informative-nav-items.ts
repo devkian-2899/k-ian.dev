@@ -1,9 +1,9 @@
 export const INFORMATIVE_NAV_ITEMS = [
-  "Font & Color",
+  "Reports",
   "Interactive Map",
   "Graphs & Charts",
   "Data Analysis",
-  "Reports",
+  "Font & Color",
 ] as const;
 
 export type InformativeNavItem = (typeof INFORMATIVE_NAV_ITEMS)[number];

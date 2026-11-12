@@ -1,4 +1,4 @@
-import { SkillsInformativeIanWcoStrip } from "../../SkillsInformativeWcoUi";
+import { SkillsInformativeDemoLayout } from "../../SkillsInformativeDemoLayout";
 import type { SkillsIanUiData } from "../../skills-business-types";
 
 type CardOneUiProps = {
@@ -10,13 +10,12 @@ export function CardOneUi({ data }: CardOneUiProps) {
   const { headline, variant = "default" } = data;
   const showWco = variant === "informative-wco";
 
+  if (showWco) {
+    return <SkillsInformativeDemoLayout side="ian" />;
+  }
+
   return (
-    <div
-      className={`skills-inner-panel${
-        showWco ? " skills-inner-panel--ui-stack" : " skills-inner-panel--testline"
-      }`}
-    >
-      {showWco ? <SkillsInformativeIanWcoStrip /> : null}
+    <div className="skills-inner-panel skills-inner-panel--testline">
       <p className="skills-card-testline">{headline}</p>
     </div>
   );

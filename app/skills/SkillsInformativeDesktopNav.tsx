@@ -1,15 +1,19 @@
 "use client";
 
+import { useInformativeDemoNav } from "./SkillsInformativeDemoContext";
 import { INFORMATIVE_NAV_ITEMS } from "./informative-nav-items";
+import type { InformativeNavItem } from "./informative-nav-items";
 
 type SkillsInformativeDesktopNavProps = {
   side: "ian" | "other";
 };
 
-/** Desktop horizontal nav (mobile uses hamburger). Actions wired later. */
+/** Desktop horizontal nav — scrolls to in-card section. */
 export function SkillsInformativeDesktopNav({ side }: SkillsInformativeDesktopNavProps) {
-  const onNavClick = (label: string) => {
-    void label;
+  const { scrollToNavItem } = useInformativeDemoNav();
+
+  const onNavClick = (label: InformativeNavItem) => {
+    scrollToNavItem(label);
   };
 
   return (
