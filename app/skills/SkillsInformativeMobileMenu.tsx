@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-
-const INFORMATIVE_MENU_ITEMS = [
-  "Font & Color",
-  "Interactive Map",
-  "Graphs & Charts",
-  "Data Analysis",
-  "Reports & Downloads",
-] as const;
+import { INFORMATIVE_NAV_ITEMS } from "./informative-nav-items";
 
 type SkillsInformativeMobileNavProps = {
   logo: ReactNode;
@@ -40,6 +33,11 @@ export function SkillsInformativeMobileNav({ side, logo }: SkillsInformativeMobi
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
+
+  const onNavClick = (label: string) => {
+    void label;
+    setOpen(false);
+  };
 
   return (
     <div
@@ -73,13 +71,13 @@ export function SkillsInformativeMobileNav({ side, logo }: SkillsInformativeMobi
           id={menuId}
           role="menu"
         >
-          {INFORMATIVE_MENU_ITEMS.map((label) => (
+          {INFORMATIVE_NAV_ITEMS.map((label) => (
             <li key={label} role="none">
               <button
                 type="button"
                 className="skills-wco-mobile-dropdown-item"
                 role="menuitem"
-                onClick={() => setOpen(false)}
+                onClick={() => onNavClick(label)}
               >
                 {label}
               </button>

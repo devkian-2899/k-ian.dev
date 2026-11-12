@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SkillsInformativeDesktopNav } from "./SkillsInformativeDesktopNav";
 import { SkillsInformativeMobileNav } from "./SkillsInformativeMobileMenu";
 import { WCO_ICON_SRC, WCO_LOGO_SRC, WCO_TEXT_SRC } from "./skills-wco-assets";
 
@@ -33,6 +34,7 @@ export function SkillsInformativeIanWcoStrip() {
           width={280}
         />
       </div>
+      <SkillsInformativeDesktopNav side="ian" />
 
       <div className="skills-wco-ian-compact">
         <SkillsInformativeMobileNav side="ian" logo={mobileLogo} />
@@ -55,7 +57,10 @@ export function SkillsInformativeOtherWcoLogo() {
 
   return (
     <div className="skills-wco-zone skills-wco-zone--other">
-      <div className="skills-wco-other-brand skills-wco-other-brand--desktop">{logo}</div>
+      <div className="skills-wco-other-brand skills-wco-other-brand--desktop">
+        {logo}
+        <SkillsInformativeDesktopNav side="other" />
+      </div>
       <div className="skills-wco-other-brand skills-wco-other-brand--mobile">
         <SkillsInformativeMobileNav side="other" logo={logo} />
       </div>

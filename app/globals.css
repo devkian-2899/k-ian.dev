@@ -5,6 +5,7 @@
  * used in page.tsx are defined below. Print rules keep output close to a paper CV.
  */
 
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600&display=swap");
 @import "tailwindcss";
 
 /* Default sans stack matches the original Google Docs / Arial CV */
@@ -887,10 +888,108 @@ body {
   width: 100%;
 }
 
-.skills-wco-other-brand--desktop {
+.skills-wco-desktop-nav {
+  display: none;
+  width: 100%;
+  min-width: 0;
+}
+
+.skills-wco-desktop-nav-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills-wco-desktop-nav-link {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  margin: 0;
+  border: none;
+  background: transparent;
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    color 0.16s ease;
+}
+
+.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.28rem;
+  width: 100%;
+}
+
+.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-item {
+  min-width: 0;
+}
+
+.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-link {
+  min-height: 2.45rem;
+  padding: 0.5rem 0.35rem;
+  border-radius: 0.32rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.68rem, 3.5cqw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  color: #29405c;
+}
+
+.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-link:hover {
+  background: rgba(41, 64, 92, 0.14);
+  color: #29405c;
+}
+
+.skills-wco-desktop-nav--ian .skills-wco-desktop-nav-link:active {
+  background: rgba(41, 64, 92, 0.22);
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border: 1px solid #c92d45;
+  border-radius: 0.35rem;
+  overflow: hidden;
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-item {
+  min-width: 0;
+  border-left: 1px solid #c92d45;
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-item:first-child {
+  border-left: none;
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link {
+  min-height: 2.45rem;
+  padding: 0.45rem 0.25rem;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: clamp(0.62rem, 3.2cqw, 0.82rem);
+  font-weight: 600;
+  color: #c92d45;
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link:hover {
+  background: #f27474;
+  color: #fff;
+}
+
+.skills-wco-desktop-nav--other .skills-wco-desktop-nav-link:active {
+  background: #e85f5f;
+  color: #fff;
+}
+
+.skills-wco-other-brand--desktop {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.5rem;
   width: 100%;
 }
 
@@ -980,11 +1079,11 @@ body {
 }
 
 .skills-wco-hamburger--ian .skills-wco-hamburger-bar {
-  background: #284b75;
+  background: #29405c;
 }
 
 .skills-wco-hamburger--other .skills-wco-hamburger-bar {
-  background: #e31837;
+  background: #c92d45;
 }
 
 .skills-wco-hamburger--open .skills-wco-hamburger-bar:nth-child(1) {
@@ -1038,27 +1137,31 @@ body {
 }
 
 .skills-wco-mobile-dropdown--ian .skills-wco-mobile-dropdown-item {
-  color: #284b75;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: #29405c;
 }
 
 .skills-wco-mobile-dropdown--ian .skills-wco-mobile-dropdown-item:hover {
-  background: rgba(40, 75, 117, 0.08);
+  background: rgba(41, 64, 92, 0.12);
 }
 
 .skills-wco-mobile-dropdown--ian .skills-wco-mobile-dropdown-item:active {
-  background: rgba(40, 75, 117, 0.14);
+  background: rgba(41, 64, 92, 0.2);
 }
 
 .skills-wco-mobile-dropdown--other .skills-wco-mobile-dropdown-item {
-  color: #e31837;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  color: #c92d45;
 }
 
 .skills-wco-mobile-dropdown--other .skills-wco-mobile-dropdown-item:hover {
-  background: rgba(227, 24, 55, 0.08);
+  background: #f27474;
+  color: #fff;
 }
 
 .skills-wco-mobile-dropdown--other .skills-wco-mobile-dropdown-item:active {
-  background: rgba(227, 24, 55, 0.12);
+  background: #e85f5f;
+  color: #fff;
 }
 
 .skills-inner-face:has(.skills-inner-panel--ui-stack) {
@@ -1153,9 +1256,19 @@ body {
     display: none;
   }
 
+  .skills-wco-desktop-nav {
+    display: block;
+  }
+
   .skills-wco-zone--ian,
   .skills-wco-zone--other {
     padding: 0.75rem 0.65rem;
+  }
+
+  .skills-wco-zone--ian {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
   }
 
   .skills-wco-text {
