@@ -102,29 +102,34 @@ export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
       </div>
 
       <div className="skills-cards-flip">
-        <p className="skills-flip-hint">
-          Swipe left or right to turn the card
-          <span className="skills-flip-dots" role="tablist" aria-label="Skill cards">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={index === 0}
-              className={`skills-flip-dot${index === 0 ? " skills-flip-dot--active" : ""}`}
-              onClick={() => goTo(0)}
-            >
-              <span className="sr-only">Card one</span>
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={index === 1}
-              className={`skills-flip-dot${index === 1 ? " skills-flip-dot--active" : ""}`}
-              onClick={() => goTo(1)}
-            >
-              <span className="sr-only">Card two</span>
-            </button>
-          </span>
-        </p>
+        <div className="skills-flip-hints">
+          <p className="skills-flip-hint">
+            Swipe to see the differences
+            <span className="skills-flip-dots" role="tablist" aria-label="Skill cards">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={index === 0}
+                className={`skills-flip-dot${index === 0 ? " skills-flip-dot--active" : ""}`}
+                onClick={() => goTo(0)}
+              >
+                <span className="sr-only">Ian card</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={index === 1}
+                className={`skills-flip-dot${index === 1 ? " skills-flip-dot--active" : ""}`}
+                onClick={() => goTo(1)}
+              >
+                <span className="sr-only">Other card</span>
+              </button>
+            </span>
+          </p>
+          <p className="skills-flip-hint skills-flip-hint--sub">
+            Double tap to see the backend code
+          </p>
+        </div>
 
         <div
           ref={sceneRef}

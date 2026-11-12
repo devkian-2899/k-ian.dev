@@ -334,15 +334,26 @@ body {
   min-height: 0;
 }
 
+.skills-flip-hints {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin: 0 0 0.55rem;
+}
+
 .skills-flip-hint {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  margin: 0 0 0.55rem;
+  margin: 0;
   font-size: 0.68rem;
   color: #64748b;
+}
+
+.skills-flip-hint--sub {
+  justify-content: flex-start;
 }
 
 .skills-flip-dots {
@@ -399,28 +410,211 @@ body {
 }
 
 .skills-card {
+  position: relative;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   width: 100%;
   height: 100%;
   min-height: 100%;
+  padding: 0.65rem 0.7rem 0.7rem;
   border: 1px solid #e7e5e4;
   border-radius: 0.65rem;
   background: rgba(250, 250, 249, 0.65);
+  overflow: visible;
 }
 
-.skills-card-body {
+.skills-inner-flip-wrap {
+  position: relative;
+  display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
   width: 100%;
+  min-height: 0;
+  height: 100%;
+}
+
+.skills-inner-toggle {
+  display: none;
+}
+
+.skills-inner-scene {
+  flex: 1 1 auto;
+  min-height: 10rem;
+  height: 100%;
+  perspective: 1100px;
+  position: relative;
+}
+
+.skills-inner-scene--mobile-tap {
+  cursor: default;
+}
+
+.skills-inner-center-hint {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.skills-inner-center-hint--visible {
+  opacity: 1;
+}
+
+.skills-inner-center-hint-pill {
+  display: inline-flex;
+  padding: 0.45rem 0.55rem 0.4rem;
+  border-radius: 0.45rem;
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.1);
+}
+
+@media (max-width: 1023px) {
+  .skills-inner-scene--mobile-tap {
+    cursor: pointer;
+    touch-action: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .skills-inner-center-hint {
+    display: none;
+  }
+
+  .skills-inner-scene--mobile-tap {
+    cursor: default;
+  }
+}
+
+.skills-inner-flip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  transform-style: preserve-3d;
+}
+
+.skills-inner-flip--transition {
+  transition: transform 0.38s cubic-bezier(0.22, 0.85, 0.25, 1);
+}
+
+.skills-inner-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  border: 1px solid #d6d3d1;
+  border-radius: 0.5rem;
+  background: #fff;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.skills-inner-face--code {
+  transform: rotateY(180deg);
+  border-color: #2b2b2b;
+  background: #1e1e1e;
+  box-shadow: none;
+}
+
+.skills-inner-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
   min-height: 100%;
   padding: 1.15rem 1.2rem;
 }
 
-.skills-card-body--logo {
-  display: flex;
+.skills-inner-panel--logo {
   align-items: center;
   justify-content: center;
+}
+
+.skills-inner-panel--code {
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 0;
+  overflow: hidden;
+}
+
+.skills-inner-empty {
+  margin: 0;
+}
+
+/* VS Code Dark+ editor (skills code faces) */
+.skills-vscode {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  background: #1e1e1e;
+}
+
+.skills-vscode-editor {
+  flex: 1 1 auto;
+  padding: 0.65rem 0 0.85rem;
+  font-family: "Cascadia Code", "Cascadia Mono", Consolas, "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.5384615384615385;
+  font-weight: 400;
+  font-feature-settings: "liga" 0, "calt" 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.skills-vscode-line {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 1.5384615384615385em;
+}
+
+.skills-vscode-gutter {
+  flex: 0 0 3.25rem;
+  padding: 0 0.75rem 0 0;
+  text-align: right;
+  color: #858585;
+  user-select: none;
+}
+
+.skills-vscode-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-right: 1rem;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.skills-vscode-code {
+  display: block;
+  margin: 0;
+  font: inherit;
+  color: #d4d4d4;
+}
+
+.skills-vsc-token--keyword {
+  color: #569cd6;
+}
+
+.skills-vsc-token--function {
+  color: #dcdcaa;
+}
+
+.skills-vsc-token--string {
+  color: #ce9178;
+}
+
+.skills-vsc-token--punct {
+  color: #d4d4d4;
 }
 
 .skills-card-logo {
@@ -430,7 +624,20 @@ body {
 }
 
 .skills-card-heading {
-  margin: 1rem 1.2rem 0;
+  margin: 0;
+}
+
+.skills-inner-toggle-glyph {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.skills-inner-toggle-icon {
+  display: block;
+  flex-shrink: 0;
 }
 
 .skills-cards-divider {
@@ -471,6 +678,55 @@ body {
     letter-spacing: 0.08em;
   }
 
+  .skills-inner-toggle {
+    position: absolute;
+    z-index: 6;
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.65rem;
+    padding: 0.35rem 0.3rem 0.28rem;
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    border-radius: 0.45rem;
+    background: rgba(255, 255, 255, 0.92);
+    color: #2563eb;
+    cursor: pointer;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    touch-action: manipulation;
+  }
+
+  .skills-inner-toggle-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    line-height: 1;
+  }
+
+  .skills-inner-toggle-label {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #3b82f6;
+  }
+
+  .skills-inner-toggle--left {
+    left: -0.15rem;
+  }
+
+  .skills-inner-toggle--right {
+    right: -0.15rem;
+  }
+
+  .skills-inner-toggle:hover {
+    background: #eff6ff;
+    border-color: rgba(37, 99, 235, 0.45);
+  }
+
   .skills-cards-layout--desktop {
     display: flex;
     flex: 1 1 auto;
@@ -508,7 +764,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .skills-flip-inner--transition {
+  .skills-flip-inner--transition,
+  .skills-inner-flip--transition {
     transition: none;
   }
 }
