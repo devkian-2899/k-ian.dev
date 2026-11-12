@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   useCallback,
   useEffect,
@@ -9,8 +10,13 @@ import {
   type ReactNode,
 } from "react";
 
+const DEVKIAN_MAIN_ICON = "/images/Icon.png";
+
 type SkillsInnerFlipCardProps = {
   code: ReactNode;
+  onShowCodeChange: (showCode: boolean) => void;
+  showCode: boolean;
+  side: "ian" | "other";
   ui: ReactNode;
 };
 
@@ -19,6 +25,8 @@ const FLIP_MS = 380;
 const FADE_MS = 260;
 const DOUBLE_TAP_MS = 320;
 const TAP_MOVE_TOLERANCE_PX = 12;
+const HINT_HOLD_MS = 2000;
+const HINT_POP_OUT_MS = 280;
 
 function SkillsToggleCodeIcon() {
   return (
@@ -62,15 +70,65 @@ function SkillsToggleStack({ mode }: { mode: "code" | "ui" }) {
   );
 }
 
+/** Mobile center overlay after flip — reflects current face (UI vs Code). */
+function SkillsMobileFlipHint({
+  side,
+  view,
+}: {
+  side: "ian" | "other";
+  view: "code" | "ui";
+}) {
+  if (view === "ui") {
+    return (
+      <span className="skills-inner-toggle-stack">
+        <SkillsToggleUiIcon />
+        <span className="skills-inner-toggle-label">UI</span>
+      </span>
+    );
+  }
+
+  if (side === "ian") {
+    return (
+      <span className="skills-inner-toggle-stack">
+        <Image
+          alt=""
+          aria-hidden
+          className="skills-inner-center-main-icon"
+          height={20}
+          src={DEVKIAN_MAIN_ICON}
+          width={20}
+        />
+        <span className="skills-inner-toggle-label">Code</span>
+      </span>
+    );
+  }
+
+  return (
+    <span className="skills-inner-toggle-stack">
+      <SkillsToggleCodeIcon />
+      <span className="skills-inner-toggle-label">Code</span>
+    </span>
+  );
+}
+
 function isDesktopViewport() {
   return typeof window !== "undefined" && window.matchMedia(DESKTOP_MEDIA).matches;
 }
 
 /** Desktop: side toggles. Mobile/tablet: double-tap to flip UI/code; center hint after turn. */
-export function SkillsInnerFlipCard({ ui, code }: SkillsInnerFlipCardProps) {
-  const [showCode, setShowCode] = useState(false);
-  const [centerHintVisible, setCenterHintVisible] = useState(false);
+type CenterHintPhase = "hidden" | "show" | "hide";
+
+export function SkillsInnerFlipCard({
+  side,
+  ui,
+  code,
+  showCode,
+  onShowCodeChange,
+}: SkillsInnerFlipCardProps) {
+  const [hintPhase, setHintPhase] = useState<CenterHintPhase>("hidden");
   const flipTimerRef = useRef<number | undefined>(undefined);
+  const hintHoldTimerRef = useRef<number | undefined>(undefined);
+  const hintOutTimerRef = useRef<number | undefined>(undefined);
   const lastTapRef = useRef(0);
   const tapStartRef = useRef<{ x: number; y: number } | null>(null);
   const tapMovedRef = useRef(false);
@@ -83,29 +141,61 @@ export function SkillsInnerFlipCard({ ui, code }: SkillsInnerFlipCardProps) {
     }
   };
 
-  const revealCenterHint = useCallback(() => {
-    clearFlipTimer();
-    flipTimerRef.current = window.setTimeout(() => {
-      if (!isDesktopViewport()) setCenterHintVisible(true);
-    }, FLIP_MS);
+  const clearHintTimers = () => {
+    if (hintHoldTimerRef.current !== undefined) {
+      window.clearTimeout(hintHoldTimerRef.current);
+      hintHoldTimerRef.current = undefined;
+    }
+    if (hintOutTimerRef.current !== undefined) {
+      window.clearTimeout(hintOutTimerRef.current);
+      hintOutTimerRef.current = undefined;
+    }
+  };
+
+  const hideCenterHint = useCallback(() => {
+    clearHintTimers();
+    setHintPhase("hidden");
   }, []);
+
+  const scheduleHintPopOut = useCallback(() => {
+    clearHintTimers();
+    hintHoldTimerRef.current = window.setTimeout(() => {
+      setHintPhase("hide");
+      hintOutTimerRef.current = window.setTimeout(() => {
+        setHintPhase("hidden");
+      }, HINT_POP_OUT_MS);
+    }, HINT_HOLD_MS);
+  }, []);
+
+  const revealCenterHint = useCallback(() => {
+    if (isDesktopViewport()) return;
+
+    clearFlipTimer();
+    clearHintTimers();
+    flipTimerRef.current = window.setTimeout(() => {
+      if (!isDesktopViewport()) {
+        setHintPhase("show");
+        scheduleHintPopOut();
+      }
+    }, FLIP_MS);
+  }, [scheduleHintPopOut]);
 
   const goToView = useCallback(
     (nextShowCode: boolean) => {
       if (isDesktopViewport()) {
-        setShowCode(nextShowCode);
-        setCenterHintVisible(false);
+        onShowCodeChange(nextShowCode);
+        hideCenterHint();
         return;
       }
 
-      setCenterHintVisible(false);
+      hideCenterHint();
       clearFlipTimer();
       flipTimerRef.current = window.setTimeout(() => {
-        setShowCode(nextShowCode);
+        onShowCodeChange(nextShowCode);
         revealCenterHint();
       }, FADE_MS);
     },
-    [revealCenterHint],
+    [hideCenterHint, onShowCodeChange, revealCenterHint],
   );
 
   const handleMobileDoubleTap = () => {
@@ -144,14 +234,20 @@ export function SkillsInnerFlipCard({ ui, code }: SkillsInnerFlipCardProps) {
 
   useEffect(() => {
     if (isDesktopViewport()) return;
-    const initial = window.setTimeout(() => setCenterHintVisible(true), FLIP_MS + 80);
+
+    const initial = window.setTimeout(() => {
+      setHintPhase("show");
+      scheduleHintPopOut();
+    }, FLIP_MS + 80);
+
     return () => {
       window.clearTimeout(initial);
       clearFlipTimer();
+      clearHintTimers();
     };
-  }, []);
+  }, [scheduleHintPopOut]);
 
-  const nextHintMode: "code" | "ui" = showCode ? "ui" : "code";
+  const mobileHintView: "code" | "ui" = showCode ? "code" : "ui";
 
   return (
     <div className="skills-inner-flip-wrap">
@@ -198,12 +294,16 @@ export function SkillsInnerFlipCard({ ui, code }: SkillsInnerFlipCardProps) {
       >
         <div
           className={`skills-inner-center-hint${
-            centerHintVisible ? " skills-inner-center-hint--visible" : ""
+            hintPhase === "show"
+              ? " skills-inner-center-hint--show"
+              : hintPhase === "hide"
+                ? " skills-inner-center-hint--hide"
+                : ""
           }`}
           aria-hidden="true"
         >
           <span className="skills-inner-center-hint-pill">
-            <SkillsToggleStack mode={nextHintMode} />
+            <SkillsMobileFlipHint side={side} view={mobileHintView} />
           </span>
         </div>
 

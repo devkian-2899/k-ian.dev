@@ -15,9 +15,11 @@ import type { SkillsBusinessId } from "./skills-business-types";
 /** Client shell: business combobox drives both cards (UI + code). */
 export function SkillsPageContent() {
   const [businessId, setBusinessId] = useState<SkillsBusinessId>(getDefaultSkillsBusinessId);
+  const [showInnerCode, setShowInnerCode] = useState(false);
 
   const onBusinessChange = useCallback((nextValue: string) => {
     setBusinessId(parseSkillsBusinessId(nextValue));
+    setShowInnerCode(false);
   }, []);
 
   const business = getSkillsBusinessData(businessId);
@@ -28,8 +30,20 @@ export function SkillsPageContent() {
 
       <SkillsCardsDeck
         key={businessId}
-        cardOne={<SkillsCardOne ian={business.ian} />}
-        cardTwo={<SkillsCardTwo other={business.other} />}
+        cardOne={
+          <SkillsCardOne
+            ian={business.ian}
+            showCode={showInnerCode}
+            onShowCodeChange={setShowInnerCode}
+          />
+        }
+        cardTwo={
+          <SkillsCardTwo
+            other={business.other}
+            showCode={showInnerCode}
+            onShowCodeChange={setShowInnerCode}
+          />
+        }
       />
     </div>
   );
