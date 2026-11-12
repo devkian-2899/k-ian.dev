@@ -15,6 +15,7 @@ export function SkillsInformativeDemoSections({ side }: SkillsInformativeDemoSec
         const sectionId = getInformativeSectionId(label);
         const titleId = `${sectionId}-title`;
         const isReports = label === "Reports";
+        const isInteractiveMap = label === "Interactive Map";
         return (
           <Fragment key={label}>
             <section
@@ -30,7 +31,7 @@ export function SkillsInformativeDemoSections({ side }: SkillsInformativeDemoSec
               )}
               {isReports ? (
                 <SkillsInformativeReportsSection side={side} />
-              ) : (
+              ) : isInteractiveMap ? null : (
                 <p className="skills-informative-section-placeholder">Demo content — UI coming soon.</p>
               )}
             </section>

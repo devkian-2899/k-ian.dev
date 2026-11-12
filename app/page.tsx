@@ -426,9 +426,7 @@ export default function Home() {
         </section>
 
         <p className="cv-skills-explore mt-3">
-          <a className="cv-link" href="/skills">
-            Explore my skills here!
-          </a>
+          <span className="cv-skills-explore-soon">Explore my skills here! (Coming Soon...)</span>
         </p>
 
         {/* Each job: role + date row, employer italic, description paragraph */}
