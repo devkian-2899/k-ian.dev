@@ -2826,6 +2826,10 @@ html:has(.skills-page-shell) body {
   border-right: 1px solid rgba(148, 163, 184, 0.45);
 }
 
+.skills-informative-bookshelf-menu-combo {
+  display: none;
+}
+
 .skills-informative-bookshelf-layout--three-col .skills-informative-bookshelf-menu {
   flex: none;
   padding-right: 0.4rem;
@@ -3278,6 +3282,65 @@ html:has(.skills-page-shell) body {
   .skills-informative-shelf-overlay-shelf .skills-informative-bookshelf-layout--book-expanded {
     display: grid;
     grid-template-columns: var(--sir-bookshelf-sidebar) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .skills-informative-bookshelf-menu-list {
+    display: none;
+  }
+
+  .skills-informative-bookshelf-menu-combo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+    width: 100%;
+  }
+
+  .skills-informative-bookshelf-menu-combo-label {
+    font-family: var(--font-ian-plex), "IBM Plex Sans", sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .skills-informative-bookshelf-menu-combo select {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #34547c;
+    border-radius: 0.35rem;
+    background: #fff;
+    color: #29405c;
+    font-family: var(--font-ian-plex), "IBM Plex Sans", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .skills-informative-bookshelf-menu {
+    flex: none;
+    width: 100%;
+    max-width: none;
+    padding-right: 0;
+    padding-bottom: 0.45rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+  }
+
+  .skills-informative-bookshelf-layout,
+  .skills-informative-bookshelf-layout--shelf,
+  .skills-informative-bookshelf-layout--book-expanded,
+  .skills-informative-bookshelf-layout--three-col,
+  .skills-informative-shelf-overlay-shelf .skills-informative-bookshelf-layout,
+  .skills-informative-shelf-overlay-shelf .skills-informative-bookshelf-layout--shelf,
+  .skills-informative-shelf-overlay-shelf .skills-informative-bookshelf-layout--book-expanded {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
   }
 }
 

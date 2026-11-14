@@ -285,6 +285,19 @@ export function SkillsInformativeReportsBookshelf() {
         }`}
       >
         <nav aria-label="Crash report categories" className="skills-informative-bookshelf-menu">
+          <label className="skills-informative-bookshelf-menu-combo">
+            <span className="skills-informative-bookshelf-menu-combo-label">Shelf</span>
+            <select
+              value={categoryId}
+              onChange={(event) => selectCategory(event.target.value)}
+            >
+              {INFORMATIVE_REPORT_CATEGORIES.map((entry) => (
+                <option key={entry.id} value={entry.id}>
+                  {entry.sideNavLabel}
+                </option>
+              ))}
+            </select>
+          </label>
           <ul className="skills-informative-bookshelf-menu-list skills-informative-sidenav-list">
             {INFORMATIVE_REPORT_CATEGORIES.map((entry) => {
               const isActive = entry.id === categoryId;
