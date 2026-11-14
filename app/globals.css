@@ -583,15 +583,30 @@ body {
 }
 
 .skills-card-topbar {
-  display: flex;
+  display: grid;
   flex-shrink: 0;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: center;
+  gap: 0.35rem;
   margin: -0.65rem -0.7rem 0.5rem;
   padding: 0.55rem 0.65rem 0.5rem;
   border-bottom: 1px solid rgba(147, 197, 253, 0.55);
   border-radius: 0.65rem 0.65rem 0 0;
   background: rgba(191, 219, 254, 0.42);
+}
+
+.skills-card-topbar-expand-spacer {
+  display: block;
+  min-width: 0;
+  min-height: 1px;
+}
+
+.skills-card-topbar-expand-btn {
+  display: none;
+}
+
+.skills-card-topbar-expand-glyph {
+  flex-shrink: 0;
 }
 
 .skills-card-topbar-brand {
@@ -600,6 +615,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.22rem;
+  justify-self: center;
 }
 
 .skills-card-topbar-icon {
@@ -667,7 +683,7 @@ body {
   min-height: 0;
 }
 
-.skills-inner-toggle {
+.skills-card-topbar-code-toggle {
   display: none;
 }
 
@@ -796,6 +812,46 @@ body {
   transition: transform 0.38s cubic-bezier(0.22, 0.85, 0.25, 1);
 }
 
+/* Desktop full-width Devkian: code sheet slides down from header (no Y-flip). */
+.skills-inner-scene--expanded-slide {
+  perspective: none;
+}
+
+.skills-inner-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  overflow: hidden;
+}
+
+.skills-inner-slide-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.skills-inner-slide-code.skills-inner-face--code {
+  transform: translateY(-102%);
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+}
+
+.skills-inner-slide-code {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.skills-inner-slide-code--motion {
+  transition: transform 0.24s ease-out;
+  will-change: transform;
+}
+
+.skills-inner-slide-code--open.skills-inner-face--code {
+  transform: translateY(0);
+}
+
 .skills-inner-face {
   position: absolute;
   inset: 0;
@@ -851,18 +907,17 @@ body {
 
   align-items: stretch;
   justify-content: flex-start;
-  gap: clamp(0.35rem, 2cqh, 0.85rem);
+  gap: 0;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 .skills-wco-zone {
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   width: 100%;
   min-width: 0;
-  min-height: 0;
-  border-radius: 0.35rem;
-  overflow: visible;
+  border-radius: 0;
+  overflow: hidden;
 }
 
 .skills-wco-zone:has(.skills-wco-mobile-shell--open) {
@@ -870,7 +925,11 @@ body {
 }
 
 .skills-wco-zone--ian {
+  position: relative;
+  z-index: 2;
   padding: clamp(0.35rem, 1.5cqh, 0.65rem) clamp(0.4rem, 2cqw, 0.55rem);
+  background: #fff;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.55);
 }
 
 .skills-wco-ian-split {
@@ -879,6 +938,8 @@ body {
   justify-content: space-between;
   gap: 0.45rem;
   width: 100%;
+  max-height: calc(var(--skills-wco-visual) + 0.35rem);
+  overflow: hidden;
 }
 
 .skills-wco-ian-compact {
@@ -906,7 +967,7 @@ body {
   --skills-nav-active-bg: rgba(41, 64, 92, 0.22);
   --skills-nav-hover-color: #29405c;
   --skills-nav-active-color: #29405c;
-  --skills-nav-font: "IBM Plex Sans", sans-serif;
+  --skills-nav-font: var(--font-ian-plex), "IBM Plex Sans", sans-serif;
   --skills-nav-size: clamp(0.68rem, 3.5cqw, 0.92rem);
 }
 
@@ -949,7 +1010,7 @@ body {
   --skills-nav-active-bg: rgba(41, 64, 92, 0.22);
   --skills-nav-hover-color: #29405c;
   --skills-nav-active-color: #29405c;
-  --skills-nav-font: "IBM Plex Sans", sans-serif;
+  --skills-nav-font: var(--font-ian-plex), "IBM Plex Sans", sans-serif;
   --skills-nav-size: clamp(0.68rem, 3.5cqw, 0.92rem);
 }
 
@@ -1175,8 +1236,7 @@ body {
 }
 
 .skills-inner-face:has(.skills-inner-panel--ui-stack) {
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .skills-informative-demo {
@@ -1187,6 +1247,7 @@ body {
   width: 100%;
   min-width: 0;
   min-height: 0;
+  padding-top: clamp(0.45rem, 1.6cqh, 0.7rem);
 }
 
 .skills-informative-section {
@@ -1226,11 +1287,1821 @@ body {
   color: #c92d45;
 }
 
+.skills-card--other .skills-inner-face--ui,
+.skills-card--other .skills-inner-face--ui *,
+.skills-card--other .skills-card-topbar,
+.skills-card--other .skills-card-topbar * {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+}
+
+.skills-card--other .skills-informative-section-title,
+.skills-card--other .skills-informative-compare-title,
+.skills-card--other .skills-informative-map-toolbar-label,
+.skills-card--other .skills-informative-map-overlay-title,
+.skills-card--other .skills-informative-trend-title,
+.skills-card--other .skills-card-topbar-caption,
+.skills-card--other .skills-inner-face--ui .skills-font-docs-heading,
+.skills-card--other .skills-inner-face--ui .skills-font-docs-sample--times {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.skills-card--ian .skills-inner-face--ui,
+.skills-card--ian .skills-inner-face--ui *,
+.skills-card--ian .skills-card-topbar,
+.skills-card--ian .skills-card-topbar * {
+  font-family: var(--font-ian-plex), "IBM Plex Sans", sans-serif;
+}
+
+.skills-card--ian .skills-card-topbar .skills-card-topbar-caption,
+.skills-card--ian .skills-inner-face--ui .skills-informative-reports-expand-hint,
+.skills-card--ian .skills-inner-face--ui .skills-informative-reports-prompt,
+.skills-card--ian .skills-inner-face--ui .skills-font-docs-lead,
+.skills-card--ian .skills-inner-face--ui .skills-font-docs-body,
+.skills-card--ian .skills-inner-face--ui .skills-font-docs-sample--merri,
+.skills-card--ian .skills-inner-face--ui .skills-informative-section-placeholder,
+.skills-card--ian .skills-inner-face--ui .skills-informative-map-toolbar-hint,
+.skills-card--ian .skills-inner-face--ui .skills-informative-map-overlay-note,
+.skills-card--ian .skills-inner-face--ui .skills-informative-compare-kicker,
+.skills-card--ian .skills-inner-face--ui .skills-informative-compare-detail,
+.skills-card--ian .skills-inner-face--ui .skills-informative-trend-empty,
+.skills-card--ian .skills-inner-face--ui .skills-informative-book-category,
+.skills-card--ian .skills-inner-face--ui .skills-informative-book-meta,
+.skills-card--ian .skills-inner-face--ui .skills-informative-book-desc,
+.skills-card--ian .skills-inner-face--ui .skills-informative-publication-author-affiliation,
+.skills-card--ian .skills-inner-face--ui .skills-informative-publication-author-orcid,
+.skills-card--ian .skills-inner-face--ui .skills-informative-publication-note,
+.skills-card--ian .skills-inner-face--ui .skills-informative-publication-detail,
+.skills-card--ian .skills-inner-face--ui .skills-informative-publication-kv-value,
+.skills-card--ian .skills-inner-face--ui .skills-informative-table-empty,
+.skills-card--ian .skills-inner-face--ui .skills-informative-table-grid td:last-child,
+.skills-card--ian .skills-inner-face--ui .skills-informative-bookshelf-search-empty,
+.skills-card--ian .skills-inner-face--ui .skills-informative-pdf-reader-cover-meta,
+.skills-card--ian .skills-inner-face--ui .skills-informative-pdf-reader-summary-text,
+.skills-card--ian .skills-inner-face--ui .skills-informative-pdf-reader-page-indicator {
+  font-family: var(--font-ian-merriweather), Merriweather, Georgia, serif;
+}
+
+.skills-informative-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.skills-informative-donut {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 11rem) minmax(0, 1fr);
+  gap: 0.65rem 1rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.skills-informative-bars {
+  min-width: 0;
+}
+
+.skills-informative-bars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills-informative-bars-row {
+  display: grid;
+  grid-template-columns: minmax(5.6rem, 7.4rem) minmax(0, 1fr) 2.4rem;
+  gap: 0.4rem;
+  align-items: center;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.72rem, 2.4cqw, 0.9rem);
+  line-height: 1.3;
+  color: #1e293b;
+}
+
+.skills-informative-bars-label {
+  min-width: 0;
+}
+
+.skills-informative-bars-track {
+  display: block;
+  height: 0.72rem;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  background: #f1f5f9;
+}
+
+.skills-informative-bars-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.skills-informative-bars-value {
+  font-weight: 600;
+  text-align: right;
+  color: #29405c;
+}
+
+.skills-informative-donut--raised .skills-informative-donut-chart {
+  transform: perspective(520px) rotateX(16deg);
+  transform-origin: center 70%;
+  filter:
+    drop-shadow(0 8px 0 rgba(190, 120, 125, 0.45))
+    drop-shadow(0 16px 14px rgba(15, 23, 42, 0.22));
+}
+
+.skills-informative-donut--raised .skills-informative-donut-svg {
+  background:
+    radial-gradient(circle at 50% 42%, #fff 0 28%, rgba(241, 155, 158, 0.18) 29% 46%, transparent 47%);
+  border-radius: 50%;
+}
+
+.skills-informative-bars--raised .skills-informative-bars-track {
+  height: 0.95rem;
+  border-radius: 0.2rem;
+  background: linear-gradient(180deg, #f8e8e8, #efe0e1);
+  box-shadow: inset 0 2px 3px rgba(120, 40, 48, 0.12);
+}
+
+.skills-informative-bars--raised .skills-informative-bars-fill {
+  border-radius: 0.15rem 0.35rem 0.15rem 0.15rem;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0) 46%, rgba(120, 40, 48, 0.16));
+  box-shadow:
+    0 4px 0 rgba(160, 80, 88, 0.28),
+    0 8px 10px rgba(15, 23, 42, 0.12);
+}
+
+.skills-informative-compare--raised {
+  background:
+    linear-gradient(165deg, #fff 0%, #fff7f7 55%, #f8e8e9 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 14px 24px rgba(120, 40, 48, 0.12);
+}
+
+.skills-informative-compare--raised .skills-informative-compare-track {
+  height: 0.95rem;
+  background: linear-gradient(180deg, #f8e8e8, #efe0e1);
+  box-shadow: inset 0 2px 3px rgba(120, 40, 48, 0.12);
+}
+
+.skills-informative-compare--raised .skills-informative-compare-fill {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 48%, rgba(120, 40, 48, 0.14));
+  box-shadow:
+    0 4px 0 rgba(160, 80, 88, 0.28),
+    0 7px 10px rgba(15, 23, 42, 0.12);
+}
+
+.skills-informative-trend--raised {
+  background:
+    radial-gradient(circle at 50% 0%, #3f1d24 0%, #14080c 58%, #0b0608 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 220, 220, 0.18),
+    0 16px 0 rgba(90, 30, 38, 0.35),
+    0 22px 24px rgba(15, 23, 42, 0.2);
+}
+
+.skills-informative-trend--raised .skills-informative-trend-svg {
+  filter: drop-shadow(0 8px 10px rgba(241, 155, 158, 0.28));
+}
+
+.skills-informative-map--raised .skills-informative-map-stage {
+  transform: perspective(1100px) rotateX(7deg);
+  transform-origin: center bottom;
+}
+
+.skills-deck--ian-expanded .skills-informative-visual {
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.skills-deck--ian-expanded .skills-informative-donut,
+.skills-deck--ian-expanded .skills-informative-bars {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.skills-informative-donut-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.skills-informative-donut-track {
+  fill: none;
+  stroke: #f1f5f9;
+  stroke-width: 16;
+}
+
+.skills-informative-donut-slice {
+  fill: none;
+  stroke-linecap: butt;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.skills-informative-donut-slice--muted {
+  opacity: 0.4;
+}
+
+.skills-informative-donut-center {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  fill: #29405c;
+  text-anchor: middle;
+}
+
+.skills-informative-donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.72rem, 2.4cqw, 0.9rem);
+  line-height: 1.35;
+  color: #1e293b;
+}
+
+.skills-informative-donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.skills-informative-donut-swatch {
+  flex-shrink: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 1px solid;
+  border-radius: 0.15rem;
+}
+
+.skills-informative-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.skills-informative-table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 0.75rem;
+}
+
+.skills-informative-table-search {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.skills-informative-table-search-label,
+.skills-informative-table-count {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.72rem, 2.3cqw, 0.85rem);
+  font-weight: 600;
+  color: #475569;
+}
+
+.skills-informative-table-search input {
+  box-sizing: border-box;
+  width: min(16rem, 58vw);
+  margin: 0;
+  padding: 0.32rem 0.5rem;
+  border: 1px solid rgba(52, 84, 124, 0.35);
+  border-radius: 0.3rem;
+  background: #fff;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.72rem, 2.3cqw, 0.85rem);
+  color: #0f172a;
+}
+
+.skills-informative-table-search input:focus {
+  outline: 2px solid rgba(52, 84, 124, 0.45);
+  outline-offset: 1px;
+}
+
+.skills-informative-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgba(52, 84, 124, 0.22);
+  border-radius: 0.4rem;
+  background: #fff;
+}
+
+.skills-informative-table--other .skills-informative-table-scroll {
+  border: 2px solid #000;
+  border-radius: 0;
+}
+
+.skills-informative-table--other .skills-informative-table-grid th,
+.skills-informative-table--other .skills-informative-table-grid td {
+  border-bottom: 1px solid #000;
+}
+
+.skills-informative-table--other .skills-informative-table-grid thead th {
+  border-bottom: 2px solid #000;
+  color: #111;
+}
+
+.skills-informative-table-grid {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.72rem, 2.2cqw, 0.88rem);
+  line-height: 1.4;
+  color: #1e293b;
+}
+
+.skills-informative-table-grid th,
+.skills-informative-table-grid td {
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  text-align: left;
+  vertical-align: top;
+}
+
+.skills-informative-table-grid thead th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: #29405c;
+  white-space: nowrap;
+}
+
+.skills-informative-table-grid thead button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.skills-informative-table-sort {
+  font-size: 0.75em;
+  color: #64748b;
+}
+
+.skills-informative-table-grid tbody tr:last-child th,
+.skills-informative-table-grid tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.skills-informative-table-grid tbody tr:hover th,
+.skills-informative-table-grid tbody tr:hover td {
+  background: rgba(52, 84, 124, 0.05);
+}
+
+.skills-informative-table-continent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.skills-informative-table-swatch {
+  flex-shrink: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 1px solid;
+  border-radius: 0.15rem;
+}
+
+.skills-informative-table-empty {
+  padding: 0.8rem 0.55rem;
+  color: #64748b;
+  text-align: center;
+}
+
+.skills-informative-compare {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 0.9rem;
+  padding: 0.85rem 0.9rem 1rem;
+  border: 1px solid rgba(52, 84, 124, 0.22);
+  border-radius: 0.7rem;
+  background: #fff;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: #0f172a;
+}
+
+.skills-informative-compare-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.skills-informative-compare-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.skills-deck--ian-expanded .skills-informative-compare-layout {
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.skills-deck--ian-expanded .skills-informative-compare-controls,
+.skills-deck--ian-expanded .skills-informative-trend {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.skills-informative-compare-title {
+  margin: 0;
+  font-size: clamp(0.95rem, 2.8cqw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.skills-informative-compare-picks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+}
+
+.skills-informative-compare-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  font-size: clamp(0.72rem, 2.2cqw, 0.85rem);
+  font-weight: 600;
+  color: #475569;
+}
+
+.skills-informative-compare-field select {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0.48rem 2rem 0.48rem 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  border-radius: 999px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%2334547C' stroke-width='1.6' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+  appearance: none;
+  font: inherit;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.skills-informative-compare-field select:focus {
+  outline: 2px solid rgba(52, 84, 124, 0.45);
+  outline-offset: 1px;
+}
+
+.skills-informative-compare-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.15rem;
+}
+
+.skills-informative-compare-row-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+  font-size: clamp(0.8rem, 2.4cqw, 0.95rem);
+  font-weight: 700;
+}
+
+.skills-informative-compare-track {
+  height: 0.72rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.skills-informative-compare-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.skills-informative-compare-kicker {
+  margin: 0.35rem 0 0;
+  font-size: clamp(0.72rem, 2.1cqw, 0.82rem);
+  color: #64748b;
+}
+
+.skills-informative-compare-headline {
+  margin: 0;
+  font-size: clamp(1.05rem, 3.2cqw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.skills-informative-compare-detail {
+  margin: 0;
+  font-size: clamp(0.78rem, 2.3cqw, 0.92rem);
+  color: #334155;
+}
+
+.skills-informative-trend {
+  padding: 0.7rem 0.35rem 0.55rem;
+  border-radius: 0.55rem;
+  background: #0b1220;
+  color: #e2e8f0;
+}
+
+.skills-informative-trend-title {
+  margin: 0 0 0.2rem;
+  font-size: clamp(0.78rem, 2.4cqw, 0.95rem);
+  font-weight: 600;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.skills-informative-trend-empty {
+  margin: 1.2rem 0.6rem;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.skills-informative-trend-plot {
+  position: relative;
+}
+
+.skills-informative-trend-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.skills-informative-trend-tooltip {
+  position: absolute;
+  top: 12%;
+  z-index: 2;
+  min-width: 9.5rem;
+  padding: 0.4rem 0.55rem 0.45rem;
+  border: 1px solid #334155;
+  border-radius: 0.4rem;
+  background: #1e293b;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.skills-informative-trend-tooltip p {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.15rem 0 0;
+  font-size: 0.75rem;
+  color: #e2e8f0;
+}
+
+.skills-informative-trend-tooltip p:first-child {
+  margin: 0 0 0.2rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.skills-informative-trend-tooltip span {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+}
+
+.skills-informative-trend-tooltip strong {
+  margin-left: auto;
+  font-weight: 700;
+}
+
+.skills-informative-trend-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 1rem;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+}
+
+.skills-informative-trend-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.skills-informative-trend-legend span {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+}
+
 .skills-informative-section-placeholder {
   margin: 0;
   font-size: clamp(0.64rem, 3.2cqw, 0.78rem);
   line-height: 1.4;
   color: #64748b;
+}
+
+.skills-font-docs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.skills-font-docs-essay {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.skills-font-docs-item + .skills-font-docs-essay {
+  margin-top: 0.75rem;
+}
+
+.skills-font-docs-heading {
+  margin: 0.55rem 0 0;
+  font-size: clamp(0.78rem, 2.7cqw, 0.95rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: #29405c;
+}
+
+.skills-font-docs-essay .skills-font-docs-heading:first-child {
+  margin-top: 0;
+}
+
+.skills-informative-section--other .skills-font-docs-heading {
+  color: #c92d45;
+}
+
+.skills-font-docs-lead,
+.skills-font-docs-body {
+  margin: 0;
+  font-size: clamp(0.68rem, 2.4cqw, 0.82rem);
+  line-height: 1.45;
+  color: #3f4f63;
+}
+
+.skills-font-docs-item {
+  border: 1px solid rgba(41, 64, 92, 0.22);
+  border-radius: 0.4rem;
+  background: #fff;
+}
+
+.skills-font-docs-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  font-size: clamp(0.75rem, 2.6cqw, 0.9rem);
+  font-weight: 600;
+  color: #29405c;
+  cursor: pointer;
+  list-style: none;
+}
+
+.skills-font-docs-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.skills-font-docs-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.skills-font-docs-item[open] summary::after {
+  content: "–";
+}
+
+.skills-font-docs-item[open] summary {
+  border-bottom: 1px solid rgba(41, 64, 92, 0.14);
+}
+
+.skills-font-docs-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.65rem 0.7rem 0.75rem;
+}
+
+.skills-font-docs-specimen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.skills-font-docs-role,
+.skills-font-docs-hex {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.skills-font-docs-sample {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: #29405c;
+}
+
+.skills-informative-section--other .skills-font-docs-sample {
+  color: #c92d45;
+}
+
+.skills-card--other .skills-inner-face--ui .skills-font-docs-sample--helvetica {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+}
+
+.skills-font-docs-swatches {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills-font-docs-swatches li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.skills-font-docs-chip {
+  flex-shrink: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+  border: 1px solid rgba(41, 64, 92, 0.35);
+  border-radius: 0.25rem;
+}
+
+.skills-font-docs-swatch-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.skills-font-docs-swatch-name {
+  font-size: clamp(0.72rem, 2.4cqw, 0.84rem);
+  font-weight: 600;
+  color: #29405c;
+}
+
+.skills-informative-section--reports {
+  padding-top: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.skills-informative-reports {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.5rem 0.55rem;
+  border-radius: 0.4rem;
+  -webkit-font-smoothing: antialiased;
+  --sir-text-xs: clamp(0.6875rem, 2.2cqw, 0.8125rem);
+  --sir-text-sm: clamp(0.75rem, 2.45cqw, 0.875rem);
+  --sir-text-base: clamp(0.8125rem, 2.7cqw, 0.9375rem);
+  --sir-text-lg: clamp(0.875rem, 2.95cqw, 1.05rem);
+  --sir-text-xl: clamp(0.9375rem, 3.15cqw, 1.125rem);
+  --sir-text-2xl: clamp(1rem, 3.35cqw, 1.2rem);
+  --sir-leading: 1.52;
+  --sir-leading-tight: 1.38;
+  --sir-color-body: #1e293b;
+  --sir-color-muted: #475569;
+  --sir-color-subtle: #64748b;
+  --sir-bookshelf-sidebar: clamp(8rem, 36cqw, 12.25rem);
+  --sir-btn-text: clamp(0.8125rem, 2.55cqw, 0.9375rem);
+}
+
+.skills-informative-reports--expanded-shelf {
+  padding: 0.45rem 0.5rem 0.55rem;
+}
+
+.skills-informative-bookshelf-layout {
+  display: flex;
+  align-items: stretch;
+  gap: 0.55rem;
+  min-height: 0;
+}
+
+.skills-informative-bookshelf-layout--shelf {
+  display: grid;
+  grid-template-columns: var(--sir-bookshelf-sidebar) minmax(0, 1fr);
+  gap: 0.45rem 0.65rem;
+  align-items: stretch;
+}
+
+.skills-informative-bookshelf-layout--book-expanded {
+  grid-template-columns: var(--sir-bookshelf-sidebar) minmax(0, 1fr);
+}
+
+.skills-informative-bookshelf-expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.15rem 0.12rem 0.2rem 0;
+}
+
+.skills-informative-bookshelf-expanded-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.45rem, 2cqw, 0.75rem);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem 0.48rem 0.42rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.skills-informative-bookshelf-expanded-hero .skills-informative-book-cover--expanded {
+  flex-shrink: 0;
+  width: clamp(3.35rem, 13cqw, 5.25rem);
+  max-width: 38%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+}
+
+.skills-informative-book-cover--expanded {
+  display: block;
+  object-fit: cover;
+  border-radius: 0.28rem;
+}
+
+.skills-informative-bookshelf-expanded-hero .skills-informative-book-detail-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: 0.05rem;
+}
+
+.skills-informative-book-detail-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+  min-width: 0;
+}
+
+.skills-informative-book-title--expanded {
+  font-size: var(--sir-text-2xl);
+  font-weight: 700;
+  line-height: var(--sir-leading-tight);
+  color: #1e3a8a;
+}
+
+.skills-informative-bookshelf-expanded-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.2rem 0.4rem 0.25rem 0.25rem;
+}
+
+.skills-informative-bookshelf-expanded-reader,
+.skills-informative-bookshelf-expanded-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+  min-width: 0;
+}
+
+.skills-informative-book-back-link {
+  align-self: flex-start;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm);
+  font-weight: 600;
+  line-height: var(--sir-leading-tight);
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.skills-informative-book-back-link:hover {
+  color: #1d4ed8;
+}
+
+.skills-informative-book-reader-heading {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--sir-color-muted);
+}
+
+.skills-informative-book-desc--expanded {
+  margin: 0;
+  font-size: var(--sir-text-base);
+  font-weight: 400;
+  line-height: var(--sir-leading);
+  text-align: left;
+  color: var(--sir-color-body);
+  max-width: 68ch;
+}
+
+.skills-informative-book-reader-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+  padding: 0.1rem 0 0.2rem;
+}
+
+.skills-informative-bookshelf-expanded-body .skills-informative-download,
+.skills-informative-bookshelf-expanded-reader .skills-informative-download {
+  font-size: var(--sir-btn-text);
+}
+
+.skills-informative-book-action-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(8.5rem, 34cqw, 11.5rem);
+  min-height: clamp(2.15rem, 7.25cqw, 2.55rem);
+  height: auto;
+  padding: 0.4rem 0.9rem 0.38rem 0.75rem;
+  border: 1px solid #34547c;
+  border-radius: 0.35rem;
+  background: #34547c;
+  box-shadow: none;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-btn-text);
+  font-weight: 600;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.skills-informative-book-action-download:hover {
+  background: #2d486c;
+  border-color: #2d486c;
+  color: #fff;
+}
+
+.skills-informative-book-action-download-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.32rem;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.skills-informative-book-action-download-inner .skills-informative-download-icon {
+  display: block;
+  flex-shrink: 0;
+  width: clamp(0.95rem, 3cqw, 1.1rem);
+  height: clamp(0.95rem, 3cqw, 1.1rem);
+}
+
+.skills-informative-book-action-download-text {
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.skills-informative-book-action-download-size {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.skills-informative-book-action-live {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(9.5rem, 40cqw, 13.5rem);
+  min-height: clamp(2.15rem, 7.25cqw, 2.55rem);
+  height: auto;
+  padding: 0.4rem 0.85rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-btn-text);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.skills-informative-book-reader-actions .skills-informative-book-action-download.skills-informative-download {
+  min-width: clamp(8.5rem, 34cqw, 11.5rem);
+  padding: 0.4rem 0.9rem 0.38rem 0.75rem;
+  border-radius: 0.35rem;
+  font-size: var(--sir-btn-text);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.skills-informative-book-reader-actions .skills-informative-book-action-live.skills-informative-download--other {
+  min-height: clamp(2.15rem, 7.25cqw, 2.55rem);
+  height: auto;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid #e31e24;
+  border-radius: 0.35rem;
+  background: #e31e24;
+  color: #fff;
+  font-size: var(--sir-btn-text);
+  font-weight: 600;
+  line-height: 1.25;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.skills-informative-book-reader-actions .skills-informative-book-action-live.skills-informative-download--other:hover {
+  border-color: #cf1f24;
+  background: #cf1f24;
+  color: #fff;
+  box-shadow: none;
+}
+
+.skills-informative-book-reader-actions .skills-informative-book-action-live.skills-informative-download--other:active {
+  transform: none;
+  border-color: #b81b20;
+  background: #b81b20;
+  box-shadow: none;
+}
+
+.skills-informative-pdf-reader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.5rem, 2vh, 1rem);
+  background: rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(1px);
+  /* A4 page width: as large as viewport allows (toolbar ~3.25rem, stage padding). */
+  --skills-pdf-a4-width: min(94vw, calc((100vh - 4.25rem) * 210 / 297), 52.5rem);
+}
+
+.skills-informative-pdf-reader {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: var(--skills-pdf-a4-width);
+  max-height: 98vh;
+  border-radius: 0.35rem;
+  background: #52525b;
+  box-shadow:
+    0 24px 56px rgba(15, 23, 42, 0.4),
+    0 4px 12px rgba(15, 23, 42, 0.22);
+  overflow: hidden;
+}
+
+.skills-informative-pdf-reader-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  flex-shrink: 0;
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: #27272a;
+}
+
+.skills-informative-pdf-reader-toolbar-title {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+  font-weight: 600;
+  color: #f4f4f5;
+}
+
+.skills-informative-pdf-reader-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.5rem;
+}
+
+.skills-informative-pdf-reader-toolbar-btn,
+.skills-informative-pdf-reader-close {
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.08);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.78rem, 1.6vw, 0.9rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fafafa;
+  cursor: pointer;
+}
+
+.skills-informative-pdf-reader-toolbar-btn {
+  min-width: 2rem;
+  padding: 0.28rem 0.55rem;
+}
+
+.skills-informative-pdf-reader-toolbar-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.skills-informative-pdf-reader-close {
+  padding: 0.28rem 0.75rem;
+}
+
+.skills-informative-pdf-reader-page-indicator {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  font-weight: 500;
+  color: #d4d4d8;
+}
+
+.skills-informative-pdf-reader-stage {
+  flex: 0 1 auto;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.2vw, 0.85rem);
+  overflow: auto;
+}
+
+.skills-informative-pdf-reader-page {
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 210 / 297;
+  min-height: 0;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4.5vw, 2.75rem) clamp(1.35rem, 4vw, 2.5rem);
+  border-radius: 0.12rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14);
+}
+
+.skills-informative-pdf-reader-page--cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.85rem, 2.5vh, 1.35rem);
+  text-align: center;
+}
+
+.skills-informative-pdf-reader-cover {
+  display: block;
+  width: min(72%, 18rem);
+  max-height: 58%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+}
+
+.skills-informative-pdf-reader-cover-title {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(1.05rem, 2.8vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: #0f172a;
+}
+
+.skills-informative-pdf-reader-cover-meta {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #64748b;
+}
+
+.skills-informative-pdf-reader-page--summary {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.65rem, 1.5vh, 1rem);
+  overflow-y: auto;
+}
+
+.skills-informative-pdf-reader-summary-heading {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.85rem, 1.9vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.skills-informative-pdf-reader-summary-text {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.9rem, 1.85vw, 1.05rem);
+  line-height: 1.55;
+  color: #334155;
+}
+
+.skills-informative-book-reader-publisher,
+.skills-informative-book-publication-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.45rem;
+  padding: 0.65rem 0.72rem 0.75rem;
+  border: 1px solid rgba(100, 116, 139, 0.28);
+  border-radius: 0.35rem;
+  background: #f1f5f9;
+}
+
+.skills-informative-publication-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(100, 116, 139, 0.25);
+}
+
+.skills-informative-publication-section:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.skills-informative-publication-section-title {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.skills-informative-publication-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+}
+
+.skills-informative-publication-authors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills-informative-publication-author-name {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-base);
+  font-weight: 700;
+  line-height: var(--sir-leading-tight);
+  color: #0f172a;
+}
+
+.skills-informative-publication-author-affiliation,
+.skills-informative-publication-author-orcid,
+.skills-informative-publication-note,
+.skills-informative-publication-detail {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm);
+  font-weight: 400;
+  line-height: var(--sir-leading);
+  color: var(--sir-color-body);
+  max-width: 72ch;
+}
+
+.skills-informative-publication-author-orcid {
+  font-size: var(--sir-text-xs);
+  color: var(--sir-color-muted);
+}
+
+.skills-informative-publication-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.22rem 0.28rem;
+  margin: 0.08rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills-informative-publication-keywords li {
+  padding: 0.18rem 0.42rem;
+  border: 1px solid rgba(52, 84, 124, 0.22);
+  border-radius: 0.25rem;
+  background: #fff;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-xs);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #29405c;
+}
+
+.skills-informative-publication-kv {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  margin: 0;
+}
+
+.skills-informative-publication-kv-label {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--sir-color-muted);
+}
+
+.skills-informative-publication-kv-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--sir-text-xs);
+  line-height: var(--sir-leading-tight);
+  color: #0f172a;
+  word-break: break-all;
+}
+
+.skills-informative-publication-bibtex {
+  margin: 0.15rem 0 0;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  border-radius: 0.28rem;
+  background: #fff;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--sir-text-xs);
+  line-height: var(--sir-leading);
+  color: #0f172a;
+  white-space: pre-wrap;
+}
+
+.skills-informative-bookshelf-layout--three-col {
+  display: grid;
+  grid-template-columns: var(--sir-bookshelf-sidebar) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.45rem 0.55rem;
+  align-items: stretch;
+}
+
+.skills-informative-bookshelf-stage {
+  min-width: 0;
+}
+
+.skills-informative-bookshelf-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.65rem;
+  margin: 0 0 0.65rem;
+}
+
+.skills-informative-bookshelf-search-label,
+.skills-informative-bookshelf-search-count {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm, 0.875rem);
+  font-weight: 600;
+  color: #475569;
+}
+
+.skills-informative-bookshelf-search input {
+  box-sizing: border-box;
+  flex: 1 1 12rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.42rem 0.75rem;
+  border: 1px solid rgba(52, 84, 124, 0.35);
+  border-radius: 999px;
+  background: #fff;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm, 0.875rem);
+  color: #0f172a;
+}
+
+.skills-informative-bookshelf-search input:focus {
+  outline: 2px solid rgba(52, 84, 124, 0.45);
+  outline-offset: 1px;
+}
+
+.skills-informative-bookshelf-search-count {
+  margin-left: auto;
+}
+
+.skills-informative-bookshelf-search-empty {
+  margin: 0.4rem 0 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm, 0.875rem);
+  color: #64748b;
+}
+
+.skills-informative-book-category {
+  margin: 0 0 0.15rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-xs, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #34547c;
+}
+
+.skills-informative-bookshelf-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0.5rem 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills-informative-bookshelf-list--single {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 100%;
+}
+
+.skills-informative-bookshelf-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem 0.4rem;
+  margin-top: 0.55rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.skills-informative-bookshelf-pager-edge,
+.skills-informative-bookshelf-pager-num {
+  border: none;
+  margin: 0;
+  padding: 0.12rem 0.35rem;
+  background: transparent;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.58rem, 2.5cqw, 0.68rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.skills-informative-bookshelf-pager-edge:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.skills-informative-bookshelf-pager-num--active {
+  color: #0f172a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.skills-informative-bookshelf-pager-ellipsis {
+  padding: 0 0.12rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.58rem, 2.5cqw, 0.68rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #64748b;
+}
+
+.skills-informative-bookshelf-menu {
+  box-sizing: border-box;
+  flex: 0 0 var(--sir-bookshelf-sidebar);
+  width: 100%;
+  min-width: 0;
+  max-width: var(--sir-bookshelf-sidebar);
+  padding-right: 0.5rem;
+  border-right: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.skills-informative-bookshelf-layout--three-col .skills-informative-bookshelf-menu {
+  flex: none;
+  padding-right: 0.4rem;
+}
+
+.skills-informative-bookshelf-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  min-width: 0;
+  padding-left: 0.35rem;
+  border-left: 1px solid rgba(148, 163, 184, 0.38);
+}
+
+.skills-informative-bookshelf-layout--three-col .skills-informative-bookshelf-pane:first-of-type {
+  border-left: none;
+  padding-left: 0;
+}
+
+.skills-informative-bookshelf-pane-label {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.48rem, 1.9cqw, 0.56rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.skills-informative-bookshelf-menu-label {
+  margin: 0 0 0.35rem;
+  padding: 0 0.2rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--sir-color-muted);
+}
+
+.skills-informative-bookshelf-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills-informative-sidenav-btn {
+  padding: 0.34rem 0.32rem;
+}
+
+.skills-informative-sidenav-list .skills-informative-bookshelf-menu-title {
+  font-size: var(--sir-text-sm);
+  line-height: var(--sir-leading);
+}
+
+.skills-informative-bookshelf-menu-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.32rem 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 0.28rem;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.skills-informative-bookshelf-menu-btn:hover {
+  background: rgba(241, 245, 249, 0.9);
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.skills-informative-bookshelf-menu-btn--active {
+  background: rgba(191, 219, 254, 0.55);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.skills-informative-bookshelf-menu-index {
+  flex-shrink: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-xs);
+  font-weight: 700;
+  line-height: var(--sir-leading-tight);
+  color: var(--sir-color-subtle);
+}
+
+.skills-informative-bookshelf-menu-btn--active .skills-informative-bookshelf-menu-index {
+  color: #1d4ed8;
+}
+
+.skills-informative-bookshelf-menu-title {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm);
+  font-weight: 500;
+  line-height: var(--sir-leading);
+  color: var(--sir-color-body);
+}
+
+.skills-informative-bookshelf-menu-btn--active .skills-informative-bookshelf-menu-title {
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.skills-informative-bookshelf-preview {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.skills-informative-book {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.45rem 0.38rem;
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  border-radius: 0.3rem;
+}
+
+.skills-informative-book--preview {
+  border: none;
+  padding: 0.1rem 0.2rem 0.15rem;
+}
+
+.skills-informative-book-cover {
+  flex-shrink: 0;
+  width: clamp(2.35rem, 9.5cqw, 3.15rem);
+  min-height: clamp(3.1rem, 12cqw, 4.1rem);
+  border: 1px solid #94a3b8;
+  background: #fff;
+}
+
+.skills-informative-book-cover--placeholder {
+  background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%);
+}
+
+.skills-informative-book-cover--image {
+  display: block;
+  height: auto;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+
+.skills-informative-book-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.38rem;
+  min-width: 0;
+}
+
+.skills-informative-book-line--placeholder {
+  border-radius: 0.2rem;
+  background: #cbd5e1;
+}
+
+.skills-informative-book-title {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-lg);
+  font-weight: 700;
+  line-height: var(--sir-leading-tight);
+  color: #1e3a8a;
+}
+
+.skills-informative-book-title.skills-informative-book-line--placeholder {
+  width: 92%;
+  height: clamp(0.62rem, 2.8cqw, 0.78rem);
+  background: #93c5fd;
+}
+
+.skills-informative-book-meta {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: var(--sir-leading-tight);
+  color: var(--sir-color-muted);
+}
+
+.skills-informative-book-meta.skills-informative-book-line--placeholder {
+  width: 48%;
+  height: clamp(0.5rem, 2.2cqw, 0.58rem);
+}
+
+.skills-informative-book-desc-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+  min-width: 0;
+}
+
+.skills-informative-book-desc {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-base);
+  font-weight: 400;
+  line-height: var(--sir-leading);
+  color: var(--sir-color-body);
+}
+
+.skills-informative-book-read-more {
+  align-self: flex-start;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: var(--sir-text-sm);
+  font-weight: 600;
+  line-height: var(--sir-leading-tight);
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.skills-informative-book-read-more:hover {
+  color: #1d4ed8;
+}
+
+.skills-informative-book-line--block {
+  min-height: clamp(1.45rem, 6cqw, 2rem);
+}
+
+.skills-informative-bookshelf-preview .skills-informative-book-cover,
+.skills-informative-bookshelf-pane .skills-informative-book-cover {
+  width: clamp(2.35rem, 9.5cqw, 3.35rem);
+  min-height: clamp(3rem, 11.5cqw, 4.25rem);
+}
+
+@media (max-width: 520px) {
+  .skills-informative-reports--ian .skills-informative-reports-line--compare {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .skills-informative-reports-download-group {
+    justify-content: flex-end;
+  }
+
+  .skills-informative-bookshelf-layout,
+  .skills-informative-bookshelf-layout--shelf,
+  .skills-informative-bookshelf-layout--three-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .skills-informative-bookshelf-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .skills-informative-bookshelf-expanded-hero {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .skills-informative-bookshelf-expanded-body {
+    padding: 0.1rem 0.15rem 0.15rem;
+  }
+
+  .skills-informative-bookshelf-menu {
+    flex: none;
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 0.4rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+  }
+
+  .skills-informative-bookshelf-pane {
+    padding-left: 0;
+    border-left: none;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+  }
+
+  .skills-informative-bookshelf-pane:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .skills-informative-book {
+    gap: 0.35rem;
+    padding: 0.3rem 0.1rem;
+  }
+
+  .skills-informative-bookshelf-preview .skills-informative-book-cover,
+  .skills-informative-bookshelf-pane .skills-informative-book-cover {
+    width: clamp(2.35rem, 22vw, 3.15rem);
+    min-height: clamp(3rem, 26vw, 4rem);
+  }
 }
 
 .skills-informative-reports-line {
@@ -1244,13 +3115,20 @@ body {
 }
 
 .skills-inner-panel--ui-stack > .skills-wco-zone--ian + .skills-informative-demo {
-  margin-top: clamp(0.65rem, 3.5cqh, 1.2rem);
+  margin-top: 0;
 }
 
 .skills-informative-reports--ian .skills-informative-reports-line {
   justify-content: flex-end;
   text-align: right;
   gap: 0.4rem clamp(0.85rem, 4cqw, 1.35rem);
+}
+
+.skills-informative-reports--ian .skills-informative-reports-line--compare {
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  gap: 0.5rem 0.65rem;
 }
 
 .skills-informative-reports--ian .skills-informative-reports-prompt {
@@ -1261,6 +3139,26 @@ body {
 .skills-informative-reports--other .skills-informative-reports-line {
   justify-content: center;
   text-align: center;
+}
+
+.skills-informative-reports-expand-hint {
+  flex: 1 1 45%;
+  min-width: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.58rem, 2.8cqw, 0.72rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: #2563eb;
+  text-align: left;
+}
+
+.skills-informative-reports-download-group {
+  display: inline-flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem 0.5rem;
 }
 
 .skills-informative-reports--other .skills-informative-reports-prompt {
@@ -1286,9 +3184,9 @@ body {
 }
 
 .skills-informative-download--ian {
-  border: 1px solid #29405c;
+  border: 1px solid #34547c;
   background: #fff;
-  color: #29405c;
+  color: #34547c;
   padding: 0.4rem;
   min-width: 2.15rem;
   min-height: 2.15rem;
@@ -1300,19 +3198,39 @@ body {
 }
 
 .skills-informative-download--ian:hover {
-  background: rgba(41, 64, 92, 0.12);
+  background: rgba(52, 84, 124, 0.12);
+}
+
+.skills-informative-bookshelf-expanded-body .skills-informative-book-action-download.skills-informative-download--ian,
+.skills-informative-bookshelf-expanded-reader .skills-informative-book-action-download.skills-informative-download--ian {
+  border: 1px solid #34547c;
+  background: #34547c;
+  color: #fff;
+  box-shadow: none;
+  text-shadow: none;
+  font-size: var(--sir-btn-text);
+  min-width: clamp(8.5rem, 34cqw, 11.5rem);
+  min-height: clamp(2.15rem, 7.25cqw, 2.55rem);
+  height: auto;
+}
+
+.skills-informative-bookshelf-expanded-body .skills-informative-book-action-download.skills-informative-download--ian:hover,
+.skills-informative-bookshelf-expanded-reader .skills-informative-book-action-download.skills-informative-download--ian:hover {
+  border-color: #2d486c;
+  background: #2d486c;
+  color: #fff;
 }
 
 .skills-informative-download--other {
-  border: 1px solid #9a2236;
-  border-top-color: #f5a0a8;
-  border-left-color: #f5a0a8;
-  background: linear-gradient(180deg, #f27474 0%, #c92d45 52%, #a82438 100%);
+  border: 1px solid #c41a1f;
+  border-top-color: #f88e86;
+  border-left-color: #f88e86;
+  background: linear-gradient(180deg, #f88e86 0%, #e31e24 54%, #c41a1f 100%);
   color: #fff;
   box-shadow:
-    0 2px 0 #7a1a2a,
+    0 2px 0 #a8181d,
     0 3px 5px rgba(15, 23, 42, 0.22);
-  text-shadow: 0 1px 0 rgba(74, 12, 22, 0.35);
+  text-shadow: 0 1px 0 rgba(90, 14, 18, 0.35);
   transition:
     background 0.14s ease,
     box-shadow 0.14s ease,
@@ -1320,14 +3238,14 @@ body {
 }
 
 .skills-informative-download--other:hover {
-  background: linear-gradient(180deg, #f58e8e 0%, #d43850 52%, #b82a3f 100%);
+  background: linear-gradient(180deg, #f9a39c 0%, #eb3238 54%, #cf1f24 100%);
   color: #fff;
 }
 
 .skills-informative-download--other:active {
   transform: translateY(1px);
   box-shadow:
-    0 1px 0 #7a1a2a,
+    0 1px 0 #a8181d,
     0 1px 3px rgba(15, 23, 42, 0.18);
 }
 
@@ -1353,7 +3271,7 @@ body {
   justify-content: space-between;
   gap: 0.25rem 0.5rem;
   margin-bottom: 0.35rem;
-  font-size: clamp(0.58rem, 2.8cqw, 0.72rem);
+  font-size: clamp(0.75rem, 2.6cqw, 0.9rem);
   line-height: 1.3;
 }
 
@@ -1398,6 +3316,15 @@ body {
   fill: #f8fafc;
 }
 
+.skills-informative-map-share {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
 .skills-informative-map-region {
   cursor: pointer;
   outline: none;
@@ -1428,7 +3355,7 @@ body {
   margin: 0.4rem 0 0;
   padding: 0;
   list-style: none;
-  font-size: clamp(0.52rem, 2.4cqw, 0.62rem);
+  font-size: clamp(0.7rem, 2.3cqw, 0.82rem);
   color: #64748b;
 }
 
@@ -1452,11 +3379,90 @@ body {
   color: #475569;
 }
 
+.skills-informative-map-slot--expanded {
+  width: 100%;
+  min-width: 0;
+}
+
+.skills-informative-map--interactive {
+  position: relative;
+  padding: 0.35rem 0.15rem 0.2rem;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.skills-informative-map--raised {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(148, 163, 184, 0.18)),
+    #f8fafc;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 12px 20px rgba(15, 23, 42, 0.14);
+}
+
+.skills-informative-map-stage {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.skills-informative-map-overlay {
+  position: absolute;
+  z-index: 2;
+  box-sizing: border-box;
+  width: min(14.5rem, 72vw);
+  padding: 0.55rem 0.62rem 0.58rem;
+  border: 1px solid rgba(41, 64, 92, 0.28);
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.14);
+  pointer-events: none;
+}
+
+.skills-informative-map-overlay-title {
+  margin: 0 0 0.35rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.78rem, 2.4cqw, 0.92rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #0f172a;
+}
+
+.skills-informative-map-overlay-dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.18rem 0.45rem;
+  margin: 0 0 0.38rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.68rem, 2.05cqw, 0.8rem);
+  line-height: 1.35;
+}
+
+.skills-informative-map-overlay-dl dt {
+  margin: 0;
+  font-weight: 600;
+  color: #475569;
+}
+
+.skills-informative-map-overlay-dl dd {
+  margin: 0;
+  color: #1e293b;
+}
+
+.skills-informative-map-overlay-note {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.64rem, 1.95cqw, 0.76rem);
+  line-height: 1.4;
+  color: #64748b;
+}
+
 .skills-wco-zone--other {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(0.4rem, 1.5cqh, 0.7rem) clamp(0.45rem, 2cqw, 0.65rem);
+  background: #fff;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.55);
 }
 
 .skills-wco-icon,
@@ -1491,9 +3497,18 @@ body {
   margin-inline: auto;
 }
 
-.skills-wco-logo {
+.skills-wco-ian-expanded-brand {
+  display: none;
+  width: 100%;
+}
+
+.skills-wco-ian-expanded-logo {
   display: block;
   width: auto;
+  max-width: min(52%, 24rem);
+  height: auto;
+  max-height: clamp(5.25rem, 24cqh, 8.75rem);
+  margin-inline: auto;
   object-fit: contain;
 }
 
@@ -1539,6 +3554,16 @@ body {
     display: none;
   }
 
+  .skills-deck--ian-expanded .skills-wco-ian-split {
+    display: none;
+  }
+
+  .skills-deck--ian-expanded .skills-wco-ian-expanded-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .skills-wco-desktop-nav {
     display: block;
   }
@@ -1551,7 +3576,80 @@ body {
   .skills-wco-zone--ian {
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
+    gap: 0.4rem;
+  }
+
+  .skills-deck--ian-expanded .skills-inner-panel--ui-stack {
+    --skills-wco-visual: clamp(1.55rem, 10cqh, 2.85rem);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-reports {
+    --sir-bookshelf-sidebar: clamp(8.5rem, 28cqw, 13rem);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-bookshelf-layout--shelf {
+    grid-template-columns: var(--sir-bookshelf-sidebar) minmax(0, 1fr);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-bookshelf-layout--book-expanded {
+    grid-template-columns: var(--sir-bookshelf-sidebar) minmax(0, 1fr);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-bookshelf-expanded-hero {
+    padding: 0.42rem 0.5rem 0.45rem;
+  }
+
+  .skills-deck--ian-expanded .skills-informative-bookshelf-expanded-hero .skills-informative-book-cover--expanded {
+    width: clamp(3.75rem, 11cqw, 5.75rem);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-bookshelf-expanded-body {
+    padding: 0.12rem 0.3rem 0.18rem 0.18rem;
+  }
+
+  .skills-deck--ian-expanded .skills-informative-book-desc--expanded {
+    font-size: var(--sir-text-base);
+    line-height: var(--sir-leading);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-bookshelf-list {
+    gap: clamp(0.4rem, 1.6cqw, 0.55rem) clamp(0.45rem, 2cqw, 0.65rem);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-bookshelf-layout--three-col {
+    grid-template-columns: var(--sir-bookshelf-sidebar) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-book--preview {
+    gap: clamp(0.4rem, 1.5cqw, 0.55rem);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-bookshelf-pane .skills-informative-book-desc,
+  .skills-deck--ian-expanded .skills-informative-book-desc {
+    font-size: var(--sir-text-base);
+    line-height: var(--sir-leading);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-book-title {
+    font-size: var(--sir-text-lg);
+    line-height: var(--sir-leading-tight);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-map-toolbar {
+    font-size: var(--sir-text-sm);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-map-overlay-title {
+    font-size: var(--sir-text-base);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-map-overlay-dl,
+  .skills-deck--ian-expanded .skills-informative-map-overlay-note {
+    font-size: var(--sir-text-sm);
+  }
+
+  .skills-deck--ian-expanded .skills-informative-map-region-legend {
+    font-size: var(--sir-text-xs);
   }
 
   .skills-wco-text {
@@ -1739,23 +3837,26 @@ body {
     width: min(100%, 17rem);
   }
 
-  .skills-inner-toggle {
-    position: absolute;
-    z-index: 6;
-    top: 50%;
+  .skills-card-topbar-code-toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    justify-self: start;
     min-width: 2.65rem;
-    padding: 0.35rem 0.3rem 0.28rem;
+    margin: 0;
+    padding: 0.28rem 0.38rem 0.26rem;
     border: 1px solid rgba(59, 130, 246, 0.35);
-    border-radius: 0.45rem;
-    background: rgba(255, 255, 255, 0.92);
+    border-radius: 0.4rem;
+    background: rgba(255, 255, 255, 0.95);
     color: #2563eb;
     cursor: pointer;
-    transform: translateY(-50%);
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
     touch-action: manipulation;
+    font: inherit;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
   }
 
   .skills-inner-toggle-stack {
@@ -1775,15 +3876,7 @@ body {
     color: #3b82f6;
   }
 
-  .skills-inner-toggle--left {
-    left: -0.15rem;
-  }
-
-  .skills-inner-toggle--right {
-    right: -0.15rem;
-  }
-
-  .skills-inner-toggle:hover {
+  .skills-card-topbar-code-toggle:hover {
     background: #eff6ff;
     border-color: rgba(37, 99, 235, 0.45);
   }
@@ -1799,6 +3892,12 @@ body {
     height: 100%;
   }
 
+  .skills-cards-layout--ian-expanded > .skills-card {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
   .skills-cards-flip {
     display: none;
   }
@@ -1807,6 +3906,87 @@ body {
     flex: 1 1 50%;
     min-width: 0;
     min-height: 100%;
+  }
+
+  .skills-card-topbar-expand-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    justify-self: end;
+    gap: 0.35rem;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0.28rem 0.42rem 0.28rem 0.5rem;
+    border-radius: 0.4rem;
+    font: inherit;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .skills-card-topbar-expand-hint {
+    font-size: clamp(0.5rem, 1.35cqw, 0.56rem);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .skills-card-topbar-expand-btn--minimized {
+    color: #0369a1;
+    background: rgba(240, 249, 255, 0.85);
+    border: 1px solid rgba(3, 105, 161, 0.32);
+  }
+
+  .skills-card-topbar-expand-btn--minimized:hover {
+    background: rgba(224, 242, 254, 0.95);
+    border-color: rgba(3, 105, 161, 0.5);
+  }
+
+  .skills-card-topbar-expand-btn--expanded {
+    color: #c2410c;
+    background: rgba(255, 247, 237, 0.9);
+    border: 1px solid rgba(194, 65, 12, 0.32);
+  }
+
+  .skills-card-topbar-expand-btn--expanded:hover {
+    background: rgba(254, 237, 220, 0.95);
+    border-color: rgba(194, 65, 12, 0.48);
+  }
+
+  .skills-card-topbar-expand-btn:active {
+    opacity: 0.92;
+  }
+
+  .skills-deck--ian-expanded .skills-card-topbar-code-toggle {
+    min-width: 3.35rem;
+    padding: 0.42rem 0.52rem 0.4rem;
+  }
+
+  .skills-deck--ian-expanded .skills-card-topbar-code-toggle .skills-inner-toggle-glyph {
+    font-size: 0.92rem;
+  }
+
+  .skills-deck--ian-expanded .skills-card-topbar-code-toggle .skills-inner-toggle-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .skills-deck--ian-expanded .skills-card-topbar-code-toggle .skills-inner-toggle-label {
+    font-size: 0.58rem;
+  }
+
+  .skills-deck--ian-expanded .skills-card-topbar-expand-btn {
+    padding: 0.38rem 0.5rem 0.38rem 0.58rem;
+  }
+
+  .skills-deck--ian-expanded .skills-card-topbar-expand-glyph {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   .skills-cards-divider {
@@ -1826,7 +4006,8 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .skills-flip-inner--transition,
-  .skills-inner-flip--transition {
+  .skills-inner-flip--transition,
+  .skills-inner-slide-code--motion {
     transition: none;
   }
 }
@@ -2431,7 +4612,7 @@ body {
 
 /* Print: drop gray desk background and use sensible page margins */
 @media print {
-  body {
+body {
     background: #fff;
   }
 

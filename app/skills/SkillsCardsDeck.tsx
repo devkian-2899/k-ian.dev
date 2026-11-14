@@ -8,6 +8,7 @@ import {
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
+import { SkillsDeckDesktopExpandProvider } from "./SkillsDeckDesktopExpandContext";
 
 type SkillsCardsDeckProps = {
   cardOne: ReactNode;
@@ -32,7 +33,12 @@ export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
   const [index, setIndex] = useState(0);
   const [rotation, setRotation] = useState(0);
   const [transitionOn, setTransitionOn] = useState(true);
+  const [ianDesktopExpanded, setIanDesktopExpanded] = useState(false);
   const indexRef = useRef(0);
+
+  const toggleIanDesktopExpand = useCallback(() => {
+    setIanDesktopExpanded((current) => !current);
+  }, []);
 
   useEffect(() => {
     indexRef.current = index;
@@ -94,12 +100,21 @@ export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
   };
 
   return (
-    <div className="skills-deck">
-      <div className="skills-cards-layout skills-cards-layout--desktop">
-        {cardOne}
-        <div aria-hidden="true" className="skills-cards-divider" />
-        {cardTwo}
-      </div>
+    <SkillsDeckDesktopExpandProvider expanded={ianDesktopExpanded} toggle={toggleIanDesktopExpand}>
+      <div className={`skills-deck${ianDesktopExpanded ? " skills-deck--ian-expanded" : ""}`}>
+        <div
+          className={`skills-cards-layout skills-cards-layout--desktop${
+            ianDesktopExpanded ? " skills-cards-layout--ian-expanded" : ""
+          }`}
+        >
+          {cardOne}
+          {ianDesktopExpanded ? null : (
+            <>
+              <div aria-hidden="true" className="skills-cards-divider" />
+              {cardTwo}
+            </>
+          )}
+        </div>
 
       <div className="skills-cards-flip">
         <div className="skills-flip-hints">
@@ -113,7 +128,7 @@ export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
                 className={`skills-flip-dot${index === 0 ? " skills-flip-dot--active" : ""}`}
                 onClick={() => goTo(0)}
               >
-                <span className="sr-only">Devkian Development</span>
+                <span className="sr-only">Drivkian Development</span>
               </button>
               <button
                 type="button"
@@ -148,6 +163,7 @@ export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </SkillsDeckDesktopExpandProvider>
   );
 }

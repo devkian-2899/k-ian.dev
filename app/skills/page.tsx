@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SkillsPageContent } from "./SkillsPageContent";
+import { ianMerriweather, ianPlex } from "./skills-ian-fonts";
 
 export const metadata: Metadata = {
   title: "Skills — Kaung Khant",
@@ -15,7 +16,9 @@ export default function SkillsPage() {
           ← Back to CV
         </a>
       </header>
-      <article className="skills-page-paper cv-paper flex w-full flex-col text-[11pt] leading-snug text-black print:shadow-none">
+      <article
+        className={`skills-page-paper cv-paper flex w-full flex-col text-[11pt] leading-snug text-black print:shadow-none ${ianPlex.variable} ${ianMerriweather.variable}`}
+      >
         <h1 className="skills-page-title shrink-0">
           Beyond the Résumé : Explore My Value
         </h1>

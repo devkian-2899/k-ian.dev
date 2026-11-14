@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useId, useState } from "react";
 import { CV_PROJECTS } from "./cv-project-list";
 
@@ -107,6 +108,20 @@ export function ProjectRequestModal({ open, onClose }: ProjectRequestModalProps)
 
         <p className="cv-modal-intro">
           Select the projects you want to learn more about. I&apos;ll reach out to you soon.
+        </p>
+        <p className="cv-modal-intro">
+          Can view the live demo{" "}
+          <Link
+            className="cv-link"
+            href="/skills"
+            onClick={() => {
+              document.body.style.overflow = "";
+              onClose();
+            }}
+          >
+            here
+          </Link>
+          .
         </p>
 
         <fieldset className="cv-modal-fieldset">

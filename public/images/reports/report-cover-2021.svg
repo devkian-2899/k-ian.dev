@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="240" viewBox="0 0 180 240" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg2021" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="240" fill="url(#bg2021)"/>
+  <path d="M0 160 Q90 120 180 175 L180 240 L0 240 Z" fill="#f59e0b" opacity="0.35"/>
+  <path d="M20 185 H160" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="45" cy="175" r="6" fill="#fcd34d"/>
+  <text x="20" y="48" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="22" font-weight="700">2021</text>
+  <text x="20" y="72" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10" font-weight="600" letter-spacing="0.08em">ROAD SAFETY ANNUAL</text>
+</svg>

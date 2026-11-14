@@ -3,15 +3,26 @@
 /**
  * Back-to-top control: hidden at the top of the CV; appears after the reader reaches Skills.
  */
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export function BackToTop() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
+  const onHomeCv = pathname === "/";
 
   useEffect(() => {
+    if (!onHomeCv) {
+      setVisible(false);
+      return;
+    }
+
     const skillsSection =
       document.getElementById("skills") ?? document.getElementById("work-code");
-    if (!skillsSection) return;
+    if (!skillsSection) {
+      setVisible(false);
+      return;
+    }
 
     const updateVisibility = () => {
       const top = skillsSection.getBoundingClientRect().top;
@@ -26,7 +37,9 @@ export function BackToTop() {
       window.removeEventListener("scroll", updateVisibility);
       window.removeEventListener("resize", updateVisibility);
     };
-  }, []);
+  }, [onHomeCv]);
+
+  if (!onHomeCv) return null;
 
   return (
     <a

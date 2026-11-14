@@ -5,7 +5,7 @@ const INFORMATIVE_SECTION_ID: Record<InformativeNavItem, string> = {
   "Interactive Map": "informative-interactive-map",
   "Graphs & Charts": "informative-graphs-charts",
   "Data Analysis": "informative-data-analysis",
-  "Font & Color": "informative-font-color",
+  Documentation: "informative-documentation",
 };
 
 export function getInformativeSectionId(item: InformativeNavItem): string {

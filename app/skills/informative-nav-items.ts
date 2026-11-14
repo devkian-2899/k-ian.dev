@@ -3,7 +3,7 @@ export const INFORMATIVE_NAV_ITEMS = [
   "Interactive Map",
   "Graphs & Charts",
   "Data Analysis",
-  "Font & Color",
+  "Documentation",
 ] as const;
 
 export type InformativeNavItem = (typeof INFORMATIVE_NAV_ITEMS)[number];

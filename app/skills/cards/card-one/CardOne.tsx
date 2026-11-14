@@ -13,11 +13,15 @@ type SkillsCardOneProps = {
 /** Left skills card — Ian UI / code inner flip. */
 export function SkillsCardOne({ ian, showCode, onShowCodeChange }: SkillsCardOneProps) {
   return (
-    <section aria-labelledby="skills-card-one-title" className="skills-card">
+    <section aria-labelledby="skills-card-one-title" className="skills-card skills-card--ian">
       <h2 className="sr-only" id="skills-card-one-title">
-        Devkian Development
+        Drivkian Development
       </h2>
-      <SkillsCardTopBar side="ian" />
+      <SkillsCardTopBar
+        side="ian"
+        showCode={showCode}
+        onShowCodeChange={onShowCodeChange}
+      />
       <SkillsInnerFlipCard
         side="ian"
         showCode={showCode}

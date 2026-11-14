@@ -9,6 +9,7 @@ import {
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
+import { useSkillsDeckDesktopExpand } from "./SkillsDeckDesktopExpandContext";
 
 const DEVKIAN_MAIN_ICON = "/images/Icon.png";
 
@@ -58,15 +59,6 @@ function SkillsToggleUiIcon() {
       />
       <path d="M3.5 9.5h17" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
     </svg>
-  );
-}
-
-function SkillsToggleStack({ mode }: { mode: "code" | "ui" }) {
-  return (
-    <span className="skills-inner-toggle-stack">
-      {mode === "code" ? <SkillsToggleCodeIcon /> : <SkillsToggleUiIcon />}
-      <span className="skills-inner-toggle-label">{mode === "code" ? "Code" : "UI"}</span>
-    </span>
   );
 }
 
@@ -130,6 +122,44 @@ export function SkillsInnerFlipCard({
   const tapStartRef = useRef<{ x: number; y: number } | null>(null);
   const tapMovedRef = useRef(false);
   const rotation = showCode ? -180 : 0;
+  const desktopExpand = useSkillsDeckDesktopExpand();
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(DESKTOP_MEDIA);
+    const sync = () => setIsDesktop(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  const useExpandedSlide =
+    isDesktop && side === "ian" && Boolean(desktopExpand?.expanded);
+  const [slideMotionEnabled, setSlideMotionEnabled] = useState(false);
+  const prevDesktopExpandedRef = useRef<boolean | null>(null);
+
+  useEffect(() => {
+    if (!useExpandedSlide) {
+      setSlideMotionEnabled(false);
+      prevDesktopExpandedRef.current = desktopExpand?.expanded ?? false;
+      return;
+    }
+
+    const expandedNow = desktopExpand?.expanded ?? false;
+    const expandedBefore = prevDesktopExpandedRef.current;
+    prevDesktopExpandedRef.current = expandedNow;
+
+    const justEnteredExpand = expandedNow && expandedBefore !== true;
+    if (justEnteredExpand) {
+      setSlideMotionEnabled(false);
+      const timer = window.setTimeout(() => setSlideMotionEnabled(true), 48);
+      return () => window.clearTimeout(timer);
+    }
+
+    if (expandedNow) {
+      setSlideMotionEnabled(true);
+    }
+  }, [desktopExpand?.expanded, useExpandedSlide]);
 
   const clearFlipTimer = () => {
     if (flipTimerRef.current !== undefined) {
@@ -246,71 +276,78 @@ export function SkillsInnerFlipCard({
 
   const mobileHintView: "code" | "ui" = showCode ? "code" : "ui";
 
+  const sceneClassName = [
+    "skills-inner-scene",
+    "skills-inner-scene--mobile-tap",
+    useExpandedSlide ? "skills-inner-scene--expanded-slide" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <div className="skills-inner-flip-wrap">
-      {showCode ? (
-        <button
-          type="button"
-          aria-label="Show UI"
-          className="skills-inner-toggle skills-inner-toggle--left"
-          onClick={() => goToView(false)}
-        >
-          <SkillsToggleStack mode="ui" />
-        </button>
-      ) : (
-        <button
-          type="button"
-          aria-label="Show code work"
-          className="skills-inner-toggle skills-inner-toggle--right"
-          onClick={() => goToView(true)}
-        >
-          <SkillsToggleStack mode="code" />
-        </button>
-      )}
-
       <div
         aria-label={
           showCode
             ? "Double-tap to show UI preview"
             : "Double-tap to show the backend code"
         }
-        className="skills-inner-scene skills-inner-scene--mobile-tap"
-        role="button"
-        tabIndex={0}
-        onClick={handleMobileDoubleTap}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            goToView(!showCode);
-          }
-        }}
-        onPointerCancel={onInnerPointerUp}
-        onPointerDown={onInnerPointerDown}
-        onPointerMove={onInnerPointerMove}
-        onPointerUp={onInnerPointerUp}
+        className={sceneClassName}
+        role={useExpandedSlide ? undefined : "button"}
+        tabIndex={useExpandedSlide ? undefined : 0}
+        onClick={useExpandedSlide ? undefined : handleMobileDoubleTap}
+        onKeyDown={
+          useExpandedSlide
+            ? undefined
+            : (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  goToView(!showCode);
+                }
+              }
+        }
+        onPointerCancel={useExpandedSlide ? undefined : onInnerPointerUp}
+        onPointerDown={useExpandedSlide ? undefined : onInnerPointerDown}
+        onPointerMove={useExpandedSlide ? undefined : onInnerPointerMove}
+        onPointerUp={useExpandedSlide ? undefined : onInnerPointerUp}
       >
-        <div
-          className={`skills-inner-center-hint${
-            hintPhase === "show"
-              ? " skills-inner-center-hint--show"
-              : hintPhase === "hide"
-                ? " skills-inner-center-hint--hide"
-                : ""
-          }`}
-          aria-hidden="true"
-        >
-          <span className="skills-inner-center-hint-pill skills-inner-center-hint-pill--icon-only">
-            <SkillsMobileFlipHint side={side} view={mobileHintView} />
-          </span>
-        </div>
+        {useExpandedSlide ? null : (
+          <div
+            className={`skills-inner-center-hint${
+              hintPhase === "show"
+                ? " skills-inner-center-hint--show"
+                : hintPhase === "hide"
+                  ? " skills-inner-center-hint--hide"
+                  : ""
+            }`}
+            aria-hidden="true"
+          >
+            <span className="skills-inner-center-hint-pill skills-inner-center-hint-pill--icon-only">
+              <SkillsMobileFlipHint side={side} view={mobileHintView} />
+            </span>
+          </div>
+        )}
 
-        <div
-          className="skills-inner-flip skills-inner-flip--transition"
-          style={{ transform: `rotateY(${rotation}deg)` }}
-        >
-          <div className="skills-inner-face skills-inner-face--ui">{ui}</div>
-          <div className="skills-inner-face skills-inner-face--code">{code}</div>
-        </div>
+        {useExpandedSlide ? (
+          <div className="skills-inner-slide">
+            <div className="skills-inner-slide-ui skills-inner-face skills-inner-face--ui">{ui}</div>
+            <div
+              className={`skills-inner-slide-code skills-inner-face skills-inner-face--code${
+                showCode ? " skills-inner-slide-code--open" : ""
+              }${slideMotionEnabled ? " skills-inner-slide-code--motion" : ""}`}
+            >
+              {code}
+            </div>
+          </div>
+        ) : (
+          <div
+            className="skills-inner-flip skills-inner-flip--transition"
+            style={{ transform: `rotateY(${rotation}deg)` }}
+          >
+            <div className="skills-inner-face skills-inner-face--ui">{ui}</div>
+            <div className="skills-inner-face skills-inner-face--code">{code}</div>
+          </div>
+        )}
       </div>
     </div>
   );

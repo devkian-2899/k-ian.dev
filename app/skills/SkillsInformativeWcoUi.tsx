@@ -34,6 +34,15 @@ export function SkillsInformativeIanWcoStrip() {
           width={280}
         />
       </div>
+      <div className="skills-wco-ian-expanded-brand">
+        <Image
+          alt="World Customs Organization"
+          className="skills-wco-ian-expanded-logo"
+          height={160}
+          src={WCO_LOGO_SRC}
+          width={400}
+        />
+      </div>
       <SkillsInformativeDesktopNav side="ian" />
 
       <div className="skills-wco-ian-compact">

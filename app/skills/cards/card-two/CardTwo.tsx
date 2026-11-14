@@ -13,7 +13,7 @@ type SkillsCardTwoProps = {
 /** Right skills card — other UI / code inner flip. */
 export function SkillsCardTwo({ other, showCode, onShowCodeChange }: SkillsCardTwoProps) {
   return (
-    <section aria-labelledby="skills-card-two-title" className="skills-card">
+    <section aria-labelledby="skills-card-two-title" className="skills-card skills-card--other">
       <h2 className="sr-only" id="skills-card-two-title">
         Other's Development
       </h2>
