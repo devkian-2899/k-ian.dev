@@ -47,7 +47,7 @@ function SkillsCardExpandIcon({ expanded }: { expanded: boolean }) {
 
 /** Fixed strip on the blue card shell — does not flip with inner UI/code. */
 export function SkillsCardTopBar({ side, showCode, onShowCodeChange }: SkillsCardTopBarProps) {
-  const caption = side === "ian" ? "Drivkian Development" : "Other's Development";
+  const caption = side === "ian" ? "Devkian Development" : "Other's Development";
   const desktopExpand = useSkillsDeckDesktopExpand();
   const showCodeToggle =
     side === "ian" && showCode !== undefined && onShowCodeChange !== undefined;

@@ -43,7 +43,7 @@ const YEARLY_AUTHORS: InformativeReportAuthor[] = [
   },
   {
     name: "Kaung Htet",
-    affiliation: "Drivkian Development — Informative Systems & Data Engineering",
+    affiliation: "Devkian Development — Informative Systems & Data Engineering",
     role: "Principal data steward",
     orcid: "0000-0003-4821-2290",
   },
@@ -60,7 +60,7 @@ const CATEGORY_META: Record<string, CategoryMetaTemplate> = {
     authors: YEARLY_AUTHORS,
     extraKeywords: ["annual mortality estimates", "motor vehicle deaths", "WHO-aligned harmonization"],
     funding:
-      "Supported by the World Crash Observatory annual statistics program, Drivkian Development platform analytics fund, and in-kind police crash extracts from 41 partner agencies (demo acknowledgment).",
+      "Supported by the World Crash Observatory annual statistics program, Devkian Development platform analytics fund, and in-kind police crash extracts from 41 partner agencies (demo acknowledgment).",
   },
   "vehicle-types": {
     authors: [
@@ -72,7 +72,7 @@ const CATEGORY_META: Record<string, CategoryMetaTemplate> = {
       },
       {
         name: "Marcus Delgado",
-        affiliation: "Drivkian Development — Telematics Pipelines",
+        affiliation: "Devkian Development — Telematics Pipelines",
         role: "Senior analytics engineer",
         orcid: "0000-0003-9044-1182",
       },
@@ -103,7 +103,7 @@ const CATEGORY_META: Record<string, CategoryMetaTemplate> = {
       },
       {
         name: "Aisha Rahman",
-        affiliation: "Drivkian Development — Recall Graph & Severity Models",
+        affiliation: "Devkian Development — Recall Graph & Severity Models",
         role: "Principal researcher",
         orcid: "0000-0003-6610-4499",
       },
@@ -134,7 +134,7 @@ const CATEGORY_META: Record<string, CategoryMetaTemplate> = {
       },
       {
         name: "Ian Khant",
-        affiliation: "Drivkian Development — Geo-Statistical Services",
+        affiliation: "Devkian Development — Geo-Statistical Services",
         role: "GIS harmonization architect",
         orcid: "0000-0003-2290-8817",
       },
@@ -165,7 +165,7 @@ const CATEGORY_META: Record<string, CategoryMetaTemplate> = {
       },
       {
         name: "Oliver Kent",
-        affiliation: "Drivkian Development — Hospital–Police Linkage",
+        affiliation: "Devkian Development — Hospital–Police Linkage",
         role: "Record linkage engineer",
         orcid: "0000-0003-1044-5590",
       },

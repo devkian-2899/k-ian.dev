@@ -15,7 +15,7 @@ export function SkillsCardOne({ ian, showCode, onShowCodeChange }: SkillsCardOne
   return (
     <section aria-labelledby="skills-card-one-title" className="skills-card skills-card--ian">
       <h2 className="sr-only" id="skills-card-one-title">
-        Drivkian Development
+        Devkian Development
       </h2>
       <SkillsCardTopBar
         side="ian"

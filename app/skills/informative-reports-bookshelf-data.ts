@@ -8,7 +8,7 @@ export const INFORMATIVE_REPORT_PDF_DOWNLOAD = {
 
 export const INFORMATIVE_REPORT_PUBLISHER = {
   name: "World Crash Observatory",
-  steward: "Drivkian Development",
+  steward: "Devkian Development",
   rightsHolder: "World Crash Observatory",
 };
 

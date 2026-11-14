@@ -128,7 +128,7 @@ export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
                 className={`skills-flip-dot${index === 0 ? " skills-flip-dot--active" : ""}`}
                 onClick={() => goTo(0)}
               >
-                <span className="sr-only">Drivkian Development</span>
+                <span className="sr-only">Devkian Development</span>
               </button>
               <button
                 type="button"
