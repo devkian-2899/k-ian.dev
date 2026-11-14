@@ -44,7 +44,7 @@ export function SkillsInformativeReportsSection({ side }: SkillsInformativeRepor
   }, []);
 
   const showCompareExpandHint =
-    side === "ian" && isDesktop && Boolean(desktopExpand) && !desktopExpand.expanded;
+    side === "ian" && isDesktop && desktopExpand != null && !desktopExpand.expanded;
   const showExpandedBookshelf =
     side === "ian" && isDesktop && Boolean(desktopExpand?.expanded);
 
