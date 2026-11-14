@@ -27,8 +27,10 @@ function clampRotation(degrees: number) {
 export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef(0);
+  const startYRef = useRef(0);
   const startRotationRef = useRef(0);
   const draggingRef = useRef(false);
+  const gestureRef = useRef<"pending" | "scroll" | "swipe">("pending");
 
   const [index, setIndex] = useState(0);
   const [rotation, setRotation] = useState(0);
@@ -67,25 +69,48 @@ export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (window.matchMedia(DESKTOP_MEDIA).matches) return;
 
-    draggingRef.current = true;
+    draggingRef.current = false;
+    gestureRef.current = "pending";
     startXRef.current = event.clientX;
+    startYRef.current = event.clientY;
     startRotationRef.current = index === 0 ? 0 : -180;
-    setTransitionOn(false);
-    event.currentTarget.setPointerCapture(event.pointerId);
   };
 
   const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!draggingRef.current || window.matchMedia(DESKTOP_MEDIA).matches) return;
+    if (gestureRef.current === "scroll" || window.matchMedia(DESKTOP_MEDIA).matches) return;
+    if (gestureRef.current === "pending" && event.buttons === 0 && event.pointerType === "mouse") return;
+
+    const deltaX = event.clientX - startXRef.current;
+    const deltaY = event.clientY - startYRef.current;
+
+    if (gestureRef.current === "pending") {
+      if (Math.hypot(deltaX, deltaY) < 10) return;
+      if (Math.abs(deltaY) > Math.abs(deltaX)) {
+        gestureRef.current = "scroll";
+        return;
+      }
+      gestureRef.current = "swipe";
+      draggingRef.current = true;
+      setTransitionOn(false);
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+
+    if (!draggingRef.current) return;
 
     const width = sceneRef.current?.offsetWidth ?? 1;
-    const deltaX = event.clientX - startXRef.current;
     setRotation(clampRotation(startRotationRef.current + (-deltaX / width) * 180));
   };
 
   const onPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!draggingRef.current) return;
+    if (!draggingRef.current) {
+      gestureRef.current = "pending";
+      return;
+    }
     finishDrag(event.clientX, indexRef.current);
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    gestureRef.current = "pending";
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
   };
 
   const onPointerCancel = (event: ReactPointerEvent<HTMLDivElement>) => {

@@ -552,7 +552,7 @@ body {
 .skills-flip-scene {
   flex: 1 1 auto;
   min-height: 0;
-  touch-action: none;
+  touch-action: pan-y;
   user-select: none;
   perspective: 1300px;
 }
@@ -786,7 +786,13 @@ body {
 @media (max-width: 1023px) {
   .skills-inner-scene--mobile-tap {
     cursor: pointer;
-    touch-action: none;
+    touch-action: pan-y;
+  }
+
+  .skills-inner-panel--ui-stack {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 }
 
