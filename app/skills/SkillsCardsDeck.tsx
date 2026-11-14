@@ -46,6 +46,58 @@ export function SkillsCardsDeck({ cardOne, cardTwo }: SkillsCardsDeckProps) {
     indexRef.current = index;
   }, [index]);
 
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+
+    let startX = 0;
+    let startY = 0;
+    let lastY = 0;
+    let panel: HTMLElement | null = null;
+    let mode: "pending" | "scroll" | "swipe" = "pending";
+
+    const onStart = (event: TouchEvent) => {
+      if (window.matchMedia(DESKTOP_MEDIA).matches) return;
+      const touch = event.touches[0];
+      if (!touch) return;
+      startX = touch.clientX;
+      startY = touch.clientY;
+      lastY = touch.clientY;
+      mode = "pending";
+      panel =
+        event.target instanceof Element
+          ? event.target.closest<HTMLElement>(".skills-inner-panel--ui-stack")
+          : null;
+    };
+
+    const onMove = (event: TouchEvent) => {
+      if (window.matchMedia(DESKTOP_MEDIA).matches || !panel) return;
+      const touch = event.touches[0];
+      if (!touch) return;
+
+      const deltaX = touch.clientX - startX;
+      const deltaY = touch.clientY - startY;
+      if (mode === "pending") {
+        if (Math.hypot(deltaX, deltaY) < 8) return;
+        mode = Math.abs(deltaY) >= Math.abs(deltaX) ? "scroll" : "swipe";
+      }
+      if (mode !== "scroll") return;
+
+      const step = lastY - touch.clientY;
+      lastY = touch.clientY;
+      const maxScroll = panel.scrollHeight - panel.clientHeight;
+      panel.scrollTop = Math.min(maxScroll, Math.max(0, panel.scrollTop + step));
+      event.preventDefault();
+    };
+
+    scene.addEventListener("touchstart", onStart, { passive: true });
+    scene.addEventListener("touchmove", onMove, { passive: false });
+    return () => {
+      scene.removeEventListener("touchstart", onStart);
+      scene.removeEventListener("touchmove", onMove);
+    };
+  }, []);
+
   const finishDrag = useCallback((clientX: number, currentIndex: number) => {
     const width = sceneRef.current?.offsetWidth ?? 1;
     const deltaX = clientX - startXRef.current;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type MouseEvent } from "react";
+import { createPortal } from "react-dom";
 import { useSkillsDeckDesktopExpand } from "./SkillsDeckDesktopExpandContext";
 import { WCO_SHEET_DOWNLOAD } from "./informative-downloads";
 import { SkillsInformativeDownloadIcon } from "./SkillsInformativeDownloadIcon";
@@ -34,6 +35,7 @@ async function saveWcoSheetFile(): Promise<void> {
 export function SkillsInformativeReportsSection({ side }: SkillsInformativeReportsSectionProps) {
   const desktopExpand = useSkillsDeckDesktopExpand();
   const [isDesktop, setIsDesktop] = useState(false);
+  const [shelfOpen, setShelfOpen] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia(DESKTOP_MEDIA);
@@ -43,10 +45,19 @@ export function SkillsInformativeReportsSection({ side }: SkillsInformativeRepor
     return () => media.removeEventListener("change", sync);
   }, []);
 
-  const showCompareExpandHint =
-    side === "ian" && isDesktop && desktopExpand != null && !desktopExpand.expanded;
   const showExpandedBookshelf =
     side === "ian" && isDesktop && Boolean(desktopExpand?.expanded);
+
+  const showShelfButton = side === "ian" && !showExpandedBookshelf;
+
+  useEffect(() => {
+    if (!shelfOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setShelfOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [shelfOpen]);
 
   const onDownloadClick = useCallback(async (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -69,23 +80,57 @@ export function SkillsInformativeReportsSection({ side }: SkillsInformativeRepor
     );
   }
 
+  const shelfOverlay =
+    shelfOpen && typeof document !== "undefined"
+      ? createPortal(
+          <div
+            className="skills-informative-shelf-overlay"
+            role="presentation"
+            onClick={() => setShelfOpen(false)}
+          >
+            <div
+              aria-labelledby="skills-shelf-overlay-title"
+              aria-modal="true"
+              className="skills-informative-shelf-overlay-panel"
+              role="dialog"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <header className="skills-informative-shelf-overlay-bar">
+                <h2 id="skills-shelf-overlay-title">PDF Shelf</h2>
+                <button type="button" className="skills-informative-shelf-overlay-close" onClick={() => setShelfOpen(false)}>
+                  Close
+                </button>
+              </header>
+              <div className="skills-informative-reports skills-informative-reports--ian skills-informative-reports--expanded-shelf skills-informative-shelf-overlay-shelf">
+                <SkillsInformativeReportsBookshelf />
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
+
   return (
     <div className={`skills-informative-reports skills-informative-reports--${side}`}>
-      <p
+      <div
         className={`skills-informative-reports-line${
-          showCompareExpandHint ? " skills-informative-reports-line--compare" : ""
+          showShelfButton ? " skills-informative-reports-line--with-shelf" : ""
         }`}
       >
-        {showCompareExpandHint ? (
-          <span className="skills-informative-reports-expand-hint">
-            Expand to see how I organize the full website's layout.
-          </span>
+        {showShelfButton ? (
+          <button
+            type="button"
+            className="skills-informative-shelf-open"
+            onClick={(event) => {
+              event.stopPropagation();
+              setShelfOpen(true);
+            }}
+            onPointerDown={(event) => event.stopPropagation()}
+          >
+            View Full Book Shelf
+          </button>
         ) : null}
-        <span
-          className={
-            showCompareExpandHint ? "skills-informative-reports-download-group" : undefined
-          }
-        >
+        <span className="skills-informative-reports-download-row">
           <span className="skills-informative-reports-prompt">Download the sample datasheet :</span>
           <a
             aria-label={`Download ${WCO_SHEET_DOWNLOAD.fileName}`}
@@ -97,7 +142,8 @@ export function SkillsInformativeReportsSection({ side }: SkillsInformativeRepor
             {side === "ian" ? <SkillsInformativeDownloadIcon /> : "DOWNLOAD"}
           </a>
         </span>
-      </p>
+      </div>
+      {shelfOverlay}
     </div>
   );
 }

@@ -260,6 +260,13 @@ body {
   line-height: 1.4;
 }
 
+html:has(.skills-page-shell),
+html:has(.skills-page-shell) body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 /* /skills — full-viewport outer paper + twin panes / flip deck */
 .skills-page-shell {
   min-height: 100dvh;
@@ -789,10 +796,21 @@ body {
     touch-action: pan-y;
   }
 
+  .skills-flip-scene,
+  .skills-page-shell,
+  .skills-page-paper {
+    overflow: hidden;
+  }
+
   .skills-inner-panel--ui-stack {
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
     touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -1319,7 +1337,6 @@ body {
 }
 
 .skills-card--ian .skills-card-topbar .skills-card-topbar-caption,
-.skills-card--ian .skills-inner-face--ui .skills-informative-reports-expand-hint,
 .skills-card--ian .skills-inner-face--ui .skills-informative-reports-prompt,
 .skills-card--ian .skills-inner-face--ui .skills-font-docs-lead,
 .skills-card--ian .skills-inner-face--ui .skills-font-docs-body,
@@ -3147,16 +3164,123 @@ body {
   text-align: center;
 }
 
-.skills-informative-reports-expand-hint {
-  flex: 1 1 45%;
-  min-width: 0;
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: clamp(0.58rem, 2.8cqw, 0.72rem);
-  font-weight: 600;
-  line-height: 1.35;
-  color: #2563eb;
+.skills-informative-reports--ian .skills-informative-reports-line--with-shelf {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
   text-align: left;
+  gap: 0.45rem;
 }
+
+.skills-informative-reports-download-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem 0.5rem;
+}
+
+.skills-informative-reports--ian .skills-informative-reports-line--with-shelf .skills-informative-reports-download-row {
+  flex: 0 0 auto;
+  margin-left: auto;
+  justify-content: flex-end;
+}
+
+.skills-informative-shelf-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #34547c;
+  border-radius: 0.35rem;
+  background: #29405c;
+  color: #fff;
+  font-family: var(--font-ian-plex), "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.72rem, 3.2cqw, 0.86rem);
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.skills-informative-shelf-open:hover {
+  background: #34547c;
+}
+
+.skills-informative-shelf-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: max(0.65rem, env(safe-area-inset-top, 0px)) max(0.65rem, env(safe-area-inset-right, 0px))
+    max(0.65rem, env(safe-area-inset-bottom, 0px)) max(0.65rem, env(safe-area-inset-left, 0px));
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.skills-informative-shelf-overlay-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 72rem);
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+  border-radius: 0.55rem;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+}
+
+.skills-informative-shelf-overlay-bar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.skills-informative-shelf-overlay-bar h2 {
+  margin: 0;
+  font-family: var(--font-ian-plex), "IBM Plex Sans", sans-serif;
+  font-size: 1rem;
+  color: #29405c;
+}
+
+.skills-informative-shelf-overlay-close {
+  margin: 0;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid #34547c;
+  border-radius: 0.3rem;
+  background: #fff;
+  color: #29405c;
+  font-family: var(--font-ian-plex), "IBM Plex Sans", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.skills-informative-shelf-overlay-shelf {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  --sir-bookshelf-sidebar: clamp(8.5rem, 28cqw, 13rem);
+}
+
+@media (min-width: 720px) {
+  .skills-informative-shelf-overlay-shelf .skills-informative-bookshelf-layout,
+  .skills-informative-shelf-overlay-shelf .skills-informative-bookshelf-layout--shelf,
+  .skills-informative-shelf-overlay-shelf .skills-informative-bookshelf-layout--book-expanded {
+    display: grid;
+    grid-template-columns: var(--sir-bookshelf-sidebar) minmax(0, 1fr);
+  }
+}
+
 
 .skills-informative-reports-download-group {
   display: inline-flex;

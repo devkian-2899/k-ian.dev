@@ -38,9 +38,11 @@ export function SkillsInformativeDemoProvider({ children }: SkillsInformativeDem
 
     const sectionId = getInformativeSectionId(item);
     const section = root.querySelector(`#${CSS.escape(sectionId)}`);
-    if (section instanceof HTMLElement) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (!(section instanceof HTMLElement)) return;
+
+    const rootTop = root.getBoundingClientRect().top;
+    const sectionTop = section.getBoundingClientRect().top;
+    root.scrollTo({ top: root.scrollTop + (sectionTop - rootTop), behavior: "smooth" });
   }, []);
 
   return (
